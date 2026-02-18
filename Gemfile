@@ -73,6 +73,9 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  
+  # Fix for Rails console on Ruby 4.0.0 Windows (reline dependency)
+  gem "fiddle", require: false
 end
 
 group :test do

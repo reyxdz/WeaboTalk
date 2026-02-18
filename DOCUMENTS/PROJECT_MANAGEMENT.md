@@ -31,13 +31,13 @@ WeaboTalk is a social platform designed for anime enthusiasts to connect, share 
 
 ## Sprint Planning: MVP Features
 
-### **Phase 1: Foundation (Week 1-2)** 
+### ✅ **Phase 1: Foundation (Week 1-2)** 
 *All Members*
-- [ ] Rails project setup and configuration
-- [ ] PostgreSQL database setup
-- [ ] Devise authentication implementation
-- [ ] Git repository initialization
-- [ ] Hotwire Stimulus setup and configuration
+- [✅] Rails project setup and configuration
+- [✅] PostgreSQL database setup
+- [✅] Devise authentication implementation
+- [✅] Git repository initialization
+- [✅] Hotwire Stimulus setup and configuration
 
 ---
 

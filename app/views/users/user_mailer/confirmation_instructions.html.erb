@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f9fafb;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 3px solid #4f46e5;
+        padding-bottom: 20px;
+      }
+      .logo {
+        font-size: 48px;
+        font-weight: bold;
+        color: #4f46e5;
+        margin-bottom: 10px;
+      }
+      .title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #1f2937;
+        margin-bottom: 5px;
+      }
+      .subtitle {
+        font-size: 14px;
+        color: #6b7280;
+      }
+      .content {
+        margin-bottom: 30px;
+      }
+      .greeting {
+        font-size: 16px;
+        color: #1f2937;
+        margin-bottom: 20px;
+      }
+      .emoji {
+        font-size: 24px;
+        margin: 0 5px;
+      }
+      .instructions {
+        background-color: #f3f4f6;
+        border-left: 4px solid #4f46e5;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+      .button {
+        display: inline-block;
+        background-color: #4f46e5;
+        color: white;
+        padding: 12px 30px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        margin: 20px 0;
+        transition: background-color 0.3s;
+      }
+      .button:hover {
+        background-color: #4338ca;
+      }
+      .link-section {
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 20px 0;
+        word-break: break-all;
+      }
+      .link-label {
+        font-size: 12px;
+        color: #6b7280;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+      .confirmation-link {
+        color: #4f46e5;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .expiry-notice {
+        background-color: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 12px;
+        margin: 20px 0;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #92400e;
+      }
+      .footer {
+        border-top: 1px solid #e5e7eb;
+        padding-top: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #6b7280;
+      }
+      .footer-note {
+        margin-top: 10px;
+        font-size: 11px;
+        color: #9ca3af;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <div class="logo">WT</div>
+        <div class="title">WeaboTalk</div>
+        <div class="subtitle">Anime Community Platform</div>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+        <div class="greeting">
+          Welcome to WeaboTalk! <span class="emoji">🎌</span>
+        </div>
+
+        <p>
+          Hi <%= @user.email %>,
+        </p>
+
+        <p>
+          Thank you for signing up! We're excited to have you join our anime community.
+          To complete your registration and start connecting with other anime fans, please confirm your email address.
+        </p>
+
+        <!-- Confirm Button -->
+        <div style="text-align: center;">
+          <a href="<%= @confirmation_url %>" class="button">Confirm Your Email</a>
+        </div>
+
+        <!-- Instructions -->
+        <div class="instructions">
+          <p style="margin: 0; font-weight: bold; margin-bottom: 10px;">How to confirm:</p>
+          <ol style="margin: 10px 0; padding-left: 20px;">
+            <li>Click the button above, or</li>
+            <li>Copy and paste the link below into your browser</li>
+          </ol>
+        </div>
+
+        <!-- Confirmation Link -->
+        <div class="link-section">
+          <div class="link-label">Confirmation Link:</div>
+          <a href="<%= @confirmation_url %>" class="confirmation-link"><%= @confirmation_url %></a>
+        </div>
+
+        <!-- Expiry Notice -->
+        <div class="expiry-notice">
+          ⏰ This confirmation link will expire in 3 days. Make sure to confirm your email before then!
+        </div>
+
+        <!-- Additional Info -->
+        <p>
+          Once confirmed, you'll be able to:
+        </p>
+        <ul>
+          <li>Create and manage your profile</li>
+          <li>Join discussions and communities</li>
+          <li>Connect with other anime fans</li>
+          <li>Share your favorite anime</li>
+        </ul>
+
+        <p>
+          If you didn't sign up for this account, please disregard this email or contact our support team.
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>
+          <strong>WeaboTalk Team</strong>
+        </p>
+        <div class="footer-note">
+          <p>This is an automated confirmation email. Please do not reply directly to this email.</p>
+          <p>© 2026 WeaboTalk. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
