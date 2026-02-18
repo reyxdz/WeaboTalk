@@ -1,0 +1,60 @@
+<!-- Navigation Bar -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center space-x-2">
+      <%= link_to root_path, class: "flex items-center space-x-2 hover:opacity-80 transition" do %>
+        <div class="text-2xl font-bold text-indigo-600">WT</div>
+        <span class="hidden sm:inline text-lg font-bold text-gray-900">WeaboTalk</span>
+      <% end %>
+    </div>
+
+    <!-- Navigation Links & User Menu -->
+    <div class="flex items-center space-x-4">
+      <% if user_signed_in? %>
+        <!-- User Dropdown Menu -->
+        <div class="relative group">
+          <!-- User Avatar/Email Button -->
+          <button class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">
+            <div class="hidden sm:block text-right">
+              <p class="text-sm font-semibold text-gray-900 truncate"><%= current_user.email %></p>
+              <p class="text-xs text-gray-500">User</p>
+            </div>
+            <svg class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu (Hidden by default, shown on hover) -->
+          <div class="absolute right-0 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2">
+            <!-- User Info -->
+            <div class="px-4 py-2 border-b border-gray-200">
+              <p class="text-sm font-semibold text-gray-900"><%= current_user.email %></p>
+              <p class="text-xs text-gray-500 mt-1">Signed in</p>
+            </div>
+
+            <!-- Profile Link (Future feature) -->
+            <div class="px-2 py-2">
+              <%= link_to "Profile (Coming Soon)", "#", class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition disabled opacity-60 cursor-not-allowed", disabled: true %>
+              <%= link_to "Settings (Coming Soon)", "#", class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition disabled opacity-60 cursor-not-allowed", disabled: true %>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200"></div>
+
+            <!-- Sign Out -->
+            <div class="px-2 py-2">
+              <%= link_to "Sign Out", user_session_path, method: :delete, class: "block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded transition font-semibold" %>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <!-- Auth Links (when not signed in) -->
+        <div class="flex items-center space-x-3">
+          <%= link_to "Sign In", user_session_path, class: "px-4 py-2 text-indigo-600 hover:text-indigo-700 font-semibold transition" %>
+          <%= link_to "Sign Up", new_user_registration_path, class: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</nav>

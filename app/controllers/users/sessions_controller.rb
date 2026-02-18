@@ -2,27 +2,27 @@
 
 module Users
   class SessionsController < Devise::SessionsController
-    layout "devise"
+    layout "devise", only: [:new, :create]
 
-    # POST /resource/sign_in
-    def create
-      # Check if user exists but is unconfirmed
-      user = User.find_by(email: user_params[:email])
-      
-      if user && !user.confirmed?
-        # User exists but hasn't confirmed email yet
-        redirect_to new_user_confirmation_path(email: user.email), 
-                    alert: "Please confirm your email first. We've sent you a confirmation link."
-        return
-      end
+    # Before attempting to sign in, check if account is unconfirmed
+    before_action :check_unconfirmed_account, only: [:create]
 
-      super
+    # Override destroy action to provide better UX
+    def destroy
+      signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+      set_flash_message! :notice, :signed_out if signed_out
+      yield if block_given?
+      redirect_to root_path
     end
 
     private
 
-    def user_params
-      params.require(:user).permit(:email, :password, :remember_me)
+    def check_unconfirmed_account
+      user = User.find_by(email: sign_in_params[:email])
+      if user&.persisted? && !user&.confirmed?
+        flash.alert = "⚠️ Please confirm your email first. Check your inbox for the confirmation email, or click below to resend it."
+        redirect_to new_user_confirmation_path(email: user.email)
+      end
     end
   end
 end

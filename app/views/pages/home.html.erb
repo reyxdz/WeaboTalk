@@ -1,31 +1,160 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-  <div class="container mx-auto px-4 py-16">
-    <div class="text-center">
-      <div class="text-6xl font-bold text-indigo-600 mb-4">WT</div>
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">Welcome to WeaboTalk</h1>
-      <p class="text-xl text-gray-600 mb-8">Your anime community awaits!</p>
-      
-      <% if user_signed_in? %>
-        <div class="space-y-4">
-          <p class="text-lg text-gray-700">
-            Welcome back, <%= current_user.email %>!
+<div class="bg-linear-to-br from-blue-50 to-indigo-100 min-h-[calc(100vh-80px)]">
+  <div class="container mx-auto px-4 py-12">
+    <!-- Flash Messages -->
+    <% if notice.present? %>
+      <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg shadow-sm">
+        <div class="flex items-start">
+          <svg class="w-6 h-6 text-green-500 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-green-800 font-semibold"><%= notice %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <% if alert.present? %>
+      <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg shadow-sm">
+        <div class="flex items-start">
+          <svg class="w-6 h-6 text-red-500 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-red-800 font-semibold"><%= alert %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <!-- Authenticated User Dashboard -->
+      <div class="space-y-8">
+        <!-- Welcome Section -->
+        <div class="text-center mb-12">
+          <h1 class="text-4xl font-bold text-gray-900 mb-2">Welcome back! 👋</h1>
+          <p class="text-xl text-gray-600">
+            Signed in as <span class="font-semibold text-indigo-600"><%= current_user.email %></span>
           </p>
-          <div class="flex justify-center gap-4">
-            <%= link_to "Dashboard", root_path, class: "btn btn-primary" %>
-            <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-outline" %>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="grid md:grid-cols-3 gap-6">
+          <!-- Posts Card -->
+          <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-200">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold text-gray-900">Posts</h3>
+              <svg class="w-8 h-8 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 5a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" />
+                <path d="M12 13a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2h-6a2 2 0 01-2-2v-6z" />
+              </svg>
+            </div>
+            <p class="text-3xl font-bold text-gray-900 mb-3">0</p>
+            <p class="text-gray-600 text-sm">Share your thoughts with the anime community</p>
+            <button class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 disabled opacity-50 cursor-not-allowed" disabled>
+              Create Post (Coming Soon)
+            </button>
+          </div>
+
+          <!-- Friends Card -->
+          <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-200">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold text-gray-900">Friends</h3>
+              <svg class="w-8 h-8 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.5 1.5H5.75A2.25 2.25 0 003.5 3.75v12.5A2.25 2.25 0 005.75 18.5h8.5a2.25 2.25 0 002.25-2.25V10M6.5 5.5h7m-7 3h7m-7 3h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <p class="text-3xl font-bold text-gray-900 mb-3">0</p>
+            <p class="text-gray-600 text-sm">Connect with other anime enthusiasts</p>
+            <button class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 disabled opacity-50 cursor-not-allowed" disabled>
+              Find Friends (Coming Soon)
+            </button>
+          </div>
+
+          <!-- Notifications Card -->
+          <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-200">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold text-gray-900">Notifications</h3>
+              <svg class="w-8 h-8 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 2a6 6 0 100 12A6 6 0 0010 2zM0 10a10 10 0 1120 0 10 10 0 01-20 0z" />
+              </svg>
+            </div>
+            <p class="text-3xl font-bold text-gray-900 mb-3">0</p>
+            <p class="text-gray-600 text-sm">Stay updated on activity</p>
+            <button class="mt-4 w-full bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg transition duration-200 cursor-not-allowed" disabled>
+              View All (Coming Soon)
+            </button>
           </div>
         </div>
-      <% else %>
-        <div class="space-y-4">
-          <p class="text-lg text-gray-700 mb-6">
-            Join thousands of anime fans connecting on WeaboTalk
-          </p>
-          <div class="flex justify-center gap-4">
-            <%= link_to "Sign Up", new_user_registration_path, class: "px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-200" %>
-            <%= link_to "Sign In", new_user_session_path, class: "px-8 py-3 bg-white border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 font-semibold rounded-lg transition duration-200" %>
+
+        <!-- Status Info -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Account Status</h3>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-700">Email Verified</span>
+              <% if user_email_confirmed? %>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+                  ✓ Verified
+                </span>
+              <% else %>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-800">
+                  ⏳ Pending
+                </span>
+              <% end %>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-700">Member Since</span>
+              <span class="text-gray-900 font-semibold"><%= current_user.created_at.strftime("%B %d, %Y") %></span>
+            </div>
+            <% if current_user.remember_created_at %>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-700">Remember Me Active</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-800">
+                  ✓ Enabled
+                </span>
+              </div>
+            <% end %>
           </div>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% else %>
+      <!-- Unauthenticated User Landing Page -->
+      <div class="text-center py-20">
+        <div class="inline-block mb-8">
+          <div class="text-7xl font-bold text-indigo-600">WT</div>
+        </div>
+        <h1 class="text-5xl font-bold text-gray-900 mb-4">Welcome to WeaboTalk</h1>
+        <p class="text-2xl text-gray-600 mb-8">Your anime community awaits!</p>
+        <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-12">
+          Connect, share, and celebrate anime with thousands of fellow enthusiasts. 
+          Create posts, react to content, comment on discussions, and build friendships 
+          within the vibrant WeaboTalk community.
+        </p>
+
+        <!-- Auth Buttons -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <%= link_to "Sign Up", new_user_registration_path, 
+              class: "px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-lg shadow-lg hover:shadow-xl transition duration-200" %>
+          <%= link_to "Sign In", new_user_session_path, 
+              class: "px-8 py-4 bg-white border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 font-bold text-lg rounded-lg shadow-lg hover:shadow-xl transition duration-200" %>
+        </div>
+
+        <!-- Features Section -->
+        <div class="mt-20 grid md:grid-cols-3 gap-8">
+          <div class="bg-white rounded-xl shadow-md p-8">
+            <div class="text-4xl mb-4">📝</div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Share Posts</h3>
+            <p class="text-gray-600">Express yourself with text and images</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-md p-8">
+            <div class="text-4xl mb-4">💬</div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Discuss</h3>
+            <p class="text-gray-600">Comment and join conversations</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-md p-8">
+            <div class="text-4xl mb-4">❤️</div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Connect</h3>
+            <p class="text-gray-600">Build friendships with anime fans</p>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>

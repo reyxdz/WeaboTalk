@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Weabo Talk" %></title>
+    <title><%= content_for(:title) || "WeaboTalk" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Weabo Talk">
+    <meta name="application-name" content="WeaboTalk">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -24,8 +24,14 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
+    <!-- Navigation Bar -->
+    <%= render "shared/navbar" %>
+
+    <!-- Main Content (accounts for fixed navbar) -->
+    <main class="pt-6">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <%= yield %>
+      </div>
     </main>
   </body>
 </html>
