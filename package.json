@@ -1,0 +1,21 @@
+{
+  "name": "weabotalk",
+  "version": "1.0.0",
+  "description": "Social media for anime lovers",
+  "main": "index.js",
+  "scripts": {
+    "dev": "./bin/dev",
+    "build": "esbuild app/javascript/application.js --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets && tailwindcss -i app/assets/tailwind/application.css -o app/assets/builds/tailwind.css",
+    "watch": "concurrently 'esbuild app/javascript/application.js --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --watch' 'tailwindcss -i app/assets/tailwind/application.css -o app/assets/builds/tailwind.css --watch'"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.1",
+    "@hotwired/turbo-rails": "^8.0.4",
+    "daisyui": "^4.5.0",
+    "tailwindcss": "^4.1.14"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.0",
+    "concurrently": "^8.2.0"
+  }
+}

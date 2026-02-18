@@ -38,7 +38,7 @@ WeaboTalk is an MVP (Minimum Viable Product) social platform built with **Ruby o
 ### Frontend
 - **JavaScript Framework**: Hotwire Stimulus
 - **HTTP Protocol**: Turbo (included in Rails)
-- **CSS**: Bootstrap 5
+- **CSS Framework**: Tailwind CSS with Daisy UI components
 - **Build Tool**: esbuild/Webpack
 
 ### Additional Gems
@@ -437,5 +437,6 @@ Built with ❤️ for anime lovers using Ruby on Rails, Action Cable, and Hotwir
 **Last Updated**: February 18, 2026  
 **Version**: 1.0.0 (MVP)  
 **Status**: 🚧 In Development
-#   W e a b o T a l k  
+#   W e a b o T a l k 
+ 
  
