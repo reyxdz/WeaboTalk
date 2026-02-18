@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-8 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 py-8 px-4 sm:px-6 lg:px-8">
   <!-- Animated Background Orbs -->
   <div class="fixed inset-0 overflow-hidden pointer-events-none">
     <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
@@ -11,7 +11,7 @@
     <div class="max-w-2xl mx-auto bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-xl shadow-2xl p-8">
       <!-- Header -->
       <div class="mb-10">
-        <h1 class="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-300 via-pink-300 to-indigo-300 bg-clip-text text-transparent">Edit Profile</h1>
+        <h1 class="text-4xl md:text-5xl font-black bg-linear-to-r from-purple-300 via-pink-300 to-indigo-300 bg-clip-text text-transparent">Edit Profile</h1>
         <p class="text-slate-400 mt-3 text-lg">Update your profile information and appearance</p>
       </div>
 
@@ -38,7 +38,7 @@
 
           <div class="flex items-center gap-6">
             <!-- Current Avatar Preview -->
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
               <% if @profile.avatar.attached? %>
                 <%= image_tag @profile.avatar, alt: "Current Avatar", class: "w-24 h-24 rounded-full object-cover border-2 border-purple-500/50 ring-2 ring-purple-500/30 shadow-lg shadow-purple-500/20" %>
               <% else %>
@@ -69,7 +69,7 @@
             <% if @profile.banner.attached? %>
               <%= image_tag @profile.banner, alt: "Current Banner", class: "w-full h-32 object-cover hover:scale-105 transition duration-300" %>
             <% else %>
-              <div class="w-full h-32 bg-gradient-to-r from-purple-600/40 via-pink-600/40 to-indigo-600/40 flex items-center justify-center">
+              <div class="w-full h-32 bg-linear-to-r from-purple-600/40 via-pink-600/40 to-indigo-600/40 flex items-center justify-center">
                 <svg class="w-8 h-8 text-purple-400/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -122,14 +122,14 @@
         <!-- Action Buttons -->
         <div class="flex gap-4 pt-6">
           <%= form.submit "Save Changes", 
-              class: "px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-lg transition duration-300 shadow-lg hover:shadow-purple-500/50 transform hover:scale-105" %>
+              class: "px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-lg transition duration-300 shadow-lg hover:shadow-purple-500/50 transform hover:scale-105" %>
           <%= link_to "Cancel", profile_path(@profile.username), 
               class: "px-6 py-3 bg-slate-700/50 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg transition duration-300 backdrop-blur" %>
         </div>
       <% end %>
 
       <!-- Help Text -->
-      <div class="mt-10 p-6 bg-gradient-to-r from-purple-900/30 to-pink-900/30 backdrop-blur border border-purple-500/30 rounded-lg">
+      <div class="mt-10 p-6 bg-linear-to-r from-purple-900/30 to-pink-900/30 backdrop-blur border border-purple-500/30 rounded-lg">
         <h4 class="font-bold text-purple-200 mb-3">Profile Tips</h4>
         <ul class="text-sm text-purple-300 space-y-2">
           <li class="flex items-start gap-2">

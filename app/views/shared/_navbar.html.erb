@@ -1,11 +1,11 @@
 <!-- Navigation Bar -->
-<nav class="bg-white shadow-md sticky top-0 z-50">
-  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+<nav class="bg-slate-950/80 backdrop-blur-lg border-b border-slate-700/30 sticky top-0 z-50 shadow-lg">
+  <div class="container mx-auto px-4 py-3 flex items-center justify-between">
     <!-- Logo -->
     <div class="flex items-center space-x-2">
       <%= link_to root_path, class: "flex items-center space-x-2 hover:opacity-80 transition" do %>
-        <div class="text-2xl font-bold text-indigo-600">WT</div>
-        <span class="hidden sm:inline text-lg font-bold text-gray-900">WeaboTalk</span>
+        <div class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">WT</div>
+        <span class="hidden sm:inline text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-indigo-300">WeaboTalk</span>
       <% end %>
     </div>
 
@@ -15,49 +15,49 @@
         <!-- User Dropdown Menu -->
         <div class="relative group">
           <!-- User Avatar/Email Button -->
-          <button class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">
+          <button class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-slate-800/50 transition duration-200 text-slate-300">
             <div class="hidden sm:block text-right">
-              <p class="text-sm font-semibold text-gray-900 truncate"><%= current_user.email %></p>
-              <p class="text-xs text-gray-500">User</p>
+              <p class="text-sm font-semibold text-slate-100 truncate"><%= current_user.email %></p>
+              <p class="text-xs text-slate-400">User</p>
             </div>
-            <svg class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
             </svg>
           </button>
 
           <!-- Dropdown Menu (Hidden by default, shown on hover) -->
-          <div class="absolute right-0 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2">
+          <div class="absolute right-0 w-48 bg-slate-900/95 backdrop-blur-md border border-slate-700/50 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2">
             <!-- User Info -->
-            <div class="px-4 py-2 border-b border-gray-200">
-              <p class="text-sm font-semibold text-gray-900"><%= current_user.email %></p>
-              <p class="text-xs text-gray-500 mt-1">Signed in</p>
+            <div class="px-4 py-2 border-b border-slate-700/30">
+              <p class="text-sm font-semibold text-slate-100"><%= current_user.email %></p>
+              <p class="text-xs text-slate-400 mt-1">Signed in</p>
             </div>
 
             <!-- Profile & Settings Links -->
             <div class="px-2 py-2">
               <% if current_user.profile %>
-                <%= link_to "View Profile", profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition" %>
-                <%= link_to "Edit Profile", edit_profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition" %>
+                <%= link_to "View Profile", profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800/50 rounded transition" %>
+                <%= link_to "Edit Profile", edit_profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800/50 rounded transition" %>
               <% else %>
-                <p class="block w-full text-left px-4 py-2 text-sm text-gray-500">Profile setup required</p>
+                <p class="block w-full text-left px-4 py-2 text-sm text-slate-500">Profile setup required</p>
               <% end %>
-              <%= link_to "Settings (Coming Soon)", "#", class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition disabled opacity-60 cursor-not-allowed", disabled: true %>
+              <%= link_to "Settings (Coming Soon)", "#", class: "block w-full text-left px-4 py-2 text-sm text-slate-400 hover:bg-slate-800/50 rounded transition disabled opacity-60 cursor-not-allowed", disabled: true %>
             </div>
 
             <!-- Divider -->
-            <div class="border-t border-gray-200"></div>
+            <div class="border-t border-slate-700/30"></div>
 
             <!-- Sign Out -->
             <div class="px-2 py-2">
-              <%= link_to "Sign Out", user_session_path, method: :delete, class: "block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded transition font-semibold" %>
+              <%= link_to "Sign Out", user_session_path, method: :delete, class: "block w-full text-left px-4 py-2 text-sm text-rose-500 hover:bg-rose-500/10 rounded transition font-semibold" %>
             </div>
           </div>
         </div>
       <% else %>
         <!-- Auth Links (when not signed in) -->
         <div class="flex items-center space-x-3">
-          <%= link_to "Sign In", user_session_path, class: "px-4 py-2 text-indigo-600 hover:text-indigo-700 font-semibold transition" %>
-          <%= link_to "Sign Up", new_user_registration_path, class: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold" %>
+          <%= link_to "Sign In", user_session_path, class: "px-4 py-2 text-purple-400 hover:text-purple-300 font-semibold transition" %>
+          <%= link_to "Sign Up", new_user_registration_path, class: "px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition font-semibold" %>
         </div>
       <% end %>
     </div>
