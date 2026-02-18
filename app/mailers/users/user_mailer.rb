@@ -3,7 +3,7 @@
 class Users::UserMailer < ApplicationMailer
   default from: ENV['MAIL_FROM'] || 'noreply@wabotalk.com'
 
-  def confirmation_instructions(user, token = nil)
+  def confirmation_instructions(user, token = nil, _opts = {})
     @user = user
     @token = token || user.confirmation_token
     @confirmation_url = confirmation_url(user, confirmation_token: @token)
