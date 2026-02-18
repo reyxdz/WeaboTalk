@@ -67,12 +67,12 @@ WeaboTalk is a social platform designed for anime enthusiasts to connect, share 
    - **Estimation**: 1 story point
    - **Priority**: 🟠 High
 
-4. **US-1.4: User Profile Management**
-   - [ ] Profile CRUD operations
-   - [ ] Avatar/banner upload
-   - [ ] Bio and username fields
-   - [ ] View other user profiles
-   - [ ] Follower/following count display
+4. **US-1.4: User Profile Management** ✅
+   - [✅] Profile CRUD operations
+   - [✅] Avatar/banner upload
+   - [✅] Bio and username fields
+   - [✅] View other user profiles
+   - [✅] Follower/following count display
    - **Estimation**: 3 story points
    - **Priority**: 🟠 High
 

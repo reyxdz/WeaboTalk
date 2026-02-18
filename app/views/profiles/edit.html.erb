@@ -1,0 +1,150 @@
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Edit Profile</h1>
+      <p class="text-gray-600 mt-2">Update your profile information and appearance</p>
+    </div>
+
+    <!-- Form -->
+    <%= form_with model: @profile, url: profile_path(@profile.username), local: true, method: :patch, class: "space-y-8" do |form| %>
+      <!-- Error Messages -->
+      <% if @profile.errors.any? %>
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+          <h3 class="font-semibold text-red-800 mb-2">
+            <%= pluralize(@profile.errors.count, "error") %> found:
+          </h3>
+          <ul class="list-disc list-inside text-red-700 text-sm space-y-1">
+            <% @profile.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- Avatar Section -->
+      <fieldset class="space-y-3 pb-6 border-b border-gray-200">
+        <legend class="text-lg font-semibold text-gray-900">Profile Picture</legend>
+        <p class="text-sm text-gray-600">Upload a profile picture (up to 5MB, JPEG/PNG/GIF/WebP)</p>
+
+        <div class="flex items-center gap-6">
+          <!-- Current Avatar Preview -->
+          <div class="flex-shrink-0">
+            <% if @profile.avatar.attached? %>
+              <%= image_tag @profile.avatar, alt: "Current Avatar", class: "w-24 h-24 rounded-full object-cover border-2 border-gray-200" %>
+            <% else %>
+              <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-200">
+                <svg class="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                </svg>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Upload Input -->
+          <div class="flex-1">
+            <%= form.file_field :avatar, accept: "image/jpeg,image/png,image/gif,image/webp", 
+                class: "block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" %>
+            <p class="text-xs text-gray-500 mt-2">Leave empty to keep current picture</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Banner Section -->
+      <fieldset class="space-y-3 pb-6 border-b border-gray-200">
+        <legend class="text-lg font-semibold text-gray-900">Profile Banner</legend>
+        <p class="text-sm text-gray-600">Upload a banner image (up to 5MB, JPEG/PNG/GIF/WebP)</p>
+
+        <!-- Current Banner Preview -->
+        <div class="rounded-lg border border-gray-200 overflow-hidden bg-gray-100">
+          <% if @profile.banner.attached? %>
+            <%= image_tag @profile.banner, alt: "Current Banner", class: "w-full h-32 object-cover" %>
+          <% else %>
+            <div class="w-full h-32 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+              <svg class="w-8 h-8 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Upload Input -->
+        <div>
+          <%= form.file_field :banner, accept: "image/jpeg,image/png,image/gif,image/webp", 
+              class: "block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" %>
+          <p class="text-xs text-gray-500 mt-2">Leave empty to keep current banner</p>
+        </div>
+      </fieldset>
+
+      <!-- Username Field -->
+      <fieldset class="space-y-3 pb-6 border-b border-gray-200">
+        <legend class="text-lg font-semibold text-gray-900">Username</legend>
+        <p class="text-sm text-gray-600">3-30 characters, letters/numbers/underscores only</p>
+
+        <div>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 font-semibold">@</span>
+            <%= form.text_field :username, 
+                class: "w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent",
+                placeholder: "username" %>
+          </div>
+          <p class="text-xs text-gray-500 mt-2">Usernames are unique and cannot be easily changed</p>
+        </div>
+      </fieldset>
+
+      <!-- Bio Field -->
+      <fieldset class="space-y-3 pb-6 border-b border-gray-200">
+        <legend class="text-lg font-semibold text-gray-900">Bio</legend>
+        <p class="text-sm text-gray-600">Tell us about yourself (up to 500 characters)</p>
+
+        <div>
+          <%= form.text_area :bio, 
+              rows: 4,
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none",
+              placeholder: "Share a little about yourself..." %>
+          <div class="flex justify-between mt-2">
+            <p class="text-xs text-gray-500">
+              <span id="bio-count">0</span> / 500 characters
+            </p>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-4 pt-4">
+        <%= form.submit "Save Changes", 
+            class: "px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-200" %>
+        <%= link_to "Cancel", profile_path(@profile.username), 
+            class: "px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold rounded-lg transition duration-200" %>
+      </div>
+    <% end %>
+
+    <!-- Help Text -->
+    <div class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+      <h4 class="font-semibold text-blue-900 mb-2">Profile Tips</h4>
+      <ul class="text-sm text-blue-800 space-y-1">
+        <li>Use a clear, recognizable profile picture for better interactions</li>
+        <li>Your username is publicly visible and helps others find you</li>
+        <li>Write a bio that describes your interests in anime</li>
+        <li>A banner image can showcase your style and personality</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Character Counter for Bio -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const bioField = document.querySelector('textarea[id="profile_bio"]');
+  const bioCount = document.getElementById('bio-count');
+  
+  if (bioField && bioCount) {
+    function updateCount() {
+      bioCount.textContent = bioField.value.length;
+    }
+    
+    bioField.addEventListener('input', updateCount);
+    updateCount();
+  }
+});
+</script>

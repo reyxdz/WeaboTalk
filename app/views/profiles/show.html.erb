@@ -1,0 +1,141 @@
+<div class="bg-white min-h-screen">
+  <!-- Profile Header with Banner -->
+  <div class="relative">
+    <!-- Banner Image -->
+    <% if @profile.banner.attached? %>
+      <%= image_tag @profile.banner, alt: "Banner", class: "w-full h-48 object-cover" %>
+    <% else %>
+      <div class="w-full h-48 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
+    <% end %>
+
+    <!-- Profile Info Section (positioned over banner) -->
+    <div class="relative px-4 sm:px-6 lg:px-8 pb-6">
+      <div class="flex flex-col sm:flex-row gap-4 -mt-16">
+        <!-- Avatar -->
+        <div class="flex-shrink-0">
+          <% if @profile.avatar.attached? %>
+            <%= image_tag @profile.avatar, alt: "Avatar", class: "w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover" %>
+          <% else %>
+            <div class="w-32 h-32 rounded-full border-4 border-white shadow-lg bg-gray-200 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- User Info -->
+        <div class="flex-1 pt-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 class="text-3xl font-bold text-gray-900"><%= @profile.username %></h1>
+              <p class="text-gray-600 mt-1">@<%= @profile.username %></p>
+            </div>
+            
+            <!-- Edit Profile Button (only for own profile) -->
+            <% if @is_own_profile %>
+              <%= link_to "Edit Profile", edit_profile_path(@profile.username), 
+                  class: "px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-200" %>
+            <% end %>
+          </div>
+
+          <!-- Bio -->
+          <% if @profile.bio.present? %>
+            <p class="text-gray-700 mt-4 text-base leading-relaxed"><%= @profile.bio %></p>
+          <% end %>
+
+          <!-- Stats -->
+          <div class="flex gap-8 mt-6">
+            <div class="text-center">
+              <p class="text-2xl font-bold text-gray-900">0</p>
+              <p class="text-sm text-gray-600">Posts</p>
+            </div>
+            <div class="text-center">
+              <p class="text-2xl font-bold text-gray-900"><%= @profile.followers_count %></p>
+              <p class="text-sm text-gray-600">Followers</p>
+            </div>
+            <div class="text-center">
+              <p class="text-2xl font-bold text-gray-900"><%= @profile.following_count %></p>
+              <p class="text-sm text-gray-600">Following</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Joined Date & Additional Info -->
+      <div class="mt-6 pt-6 border-t border-gray-200">
+        <div class="flex flex-wrap gap-6 text-sm text-gray-600">
+          <!-- Member Since -->
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span>Joined <%= @profile.created_at.strftime("%B %Y") %></span>
+          </div>
+
+          <!-- Email Verified -->
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            <span>Email verified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Posts Section (Future) -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-lg border border-gray-200 p-8">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Posts</h2>
+          <div class="text-center py-12">
+            <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m0 0h6m0 0v6m0-6h-6m0 0V6" />
+            </svg>
+            <p class="text-gray-600">No posts yet</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="lg:col-span-1 space-y-6">
+        <!-- About Card -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <h3 class="text-lg font-bold text-gray-900 mb-4">About</h3>
+          <ul class="space-y-3 text-sm text-gray-600">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span><%= @user.email %></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span><%= @user.confirmed? ? "Email verified" : "Email pending" %></span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Quick Actions (for own profile) -->
+        <% if @is_own_profile %>
+          <div class="bg-indigo-50 rounded-lg border border-indigo-200 p-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Actions</h3>
+            <div class="space-y-3">
+              <%= link_to "Edit Profile", edit_profile_path(@profile.username), 
+                  class: "block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-200 text-center" %>
+              <%= link_to "Account Settings", "#", 
+                  class: "block px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold rounded-lg transition duration-200 text-center opacity-50 cursor-not-allowed", 
+                  onclick: "return false" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

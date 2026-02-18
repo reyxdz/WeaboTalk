@@ -18,6 +18,12 @@ Rails.application.routes.draw do
   # Pages
   get "home", to: "pages#home"
 
+  # User Profiles
+  get "/profiles/:username", to: "profiles#show", as: :profile
+  get "/profiles/:username/edit", to: "profiles#edit", as: :edit_profile
+  patch "/profiles/:username", to: "profiles#update"
+  put "/profiles/:username", to: "profiles#update"
+
   # Defines the root path route ("/")
   root "pages#home"
 end

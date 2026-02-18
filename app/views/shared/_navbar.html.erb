@@ -33,9 +33,10 @@
               <p class="text-xs text-gray-500 mt-1">Signed in</p>
             </div>
 
-            <!-- Profile Link (Future feature) -->
+            <!-- Profile & Settings Links -->
             <div class="px-2 py-2">
-              <%= link_to "Profile (Coming Soon)", "#", class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition disabled opacity-60 cursor-not-allowed", disabled: true %>
+              <%= link_to "View Profile", profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition" %>
+              <%= link_to "Edit Profile", edit_profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition" %>
               <%= link_to "Settings (Coming Soon)", "#", class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition disabled opacity-60 cursor-not-allowed", disabled: true %>
             </div>
 
