@@ -44,19 +44,19 @@ WeaboTalk is a social platform designed for anime enthusiasts to connect, share 
 ### **Phase 2: User Management (Week 2-3)**
 
 #### Member 1 Tasks:
-1. **US-1.1: Device Authentication - Sign Up**
-   - [ ] Implement Devise user model
-   - [ ] Email validation
-   - [ ] Password confirmation
-   - [ ] Account activation via email
+1. **US-1.1:✅ Device Authentication - Sign Up**
+   - [✅] Implement Devise user model
+   - [✅] Email validation
+   - [✅] Password confirmation
+   - [✅] Account activation via email
    - **Estimation**: 2 story points
    - **Priority**: 🔴 Critical
 
-2. **US-1.2: Device Authentication - Login/Logout**
-   - [ ] Login functionality
-   - [ ] Session management
-   - [ ] Remember me option
-   - [ ] Logout with session cleanup
+2. **US-1.2: Device Authentication - Login/Logout** ✅
+   - [✅] Login functionality
+   - [✅] Session management
+   - [✅] Remember me option
+   - [✅] Logout with session cleanup
    - **Estimation**: 1 story point
    - **Priority**: 🔴 Critical
 
