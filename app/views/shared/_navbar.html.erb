@@ -35,8 +35,12 @@
 
             <!-- Profile & Settings Links -->
             <div class="px-2 py-2">
-              <%= link_to "View Profile", profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition" %>
-              <%= link_to "Edit Profile", edit_profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition" %>
+              <% if current_user.profile %>
+                <%= link_to "View Profile", profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition" %>
+                <%= link_to "Edit Profile", edit_profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition" %>
+              <% else %>
+                <p class="block w-full text-left px-4 py-2 text-sm text-gray-500">Profile setup required</p>
+              <% end %>
               <%= link_to "Settings (Coming Soon)", "#", class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition disabled opacity-60 cursor-not-allowed", disabled: true %>
             </div>
 
