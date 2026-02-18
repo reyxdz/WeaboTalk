@@ -76,6 +76,9 @@ group :development do
   
   # Fix for Rails console on Ruby 4.0.0 Windows (reline dependency)
   gem "fiddle", require: false
+  
+  # Load environment variables from .env file
+  gem "dotenv-rails"
 end
 
 group :test do
