@@ -32,7 +32,8 @@ module Users
       if resource.errors.empty?
         set_flash_message!(:notice, :confirmed)
         sign_in(resource_name, resource)
-        respond_with_navigational(resource) { redirect_to root_path }
+        # Render confirmation success page instead of redirecting
+        render :confirmed
       else
         respond_with_navigational(resource.errors, status: :unprocessable_entity) { render :new }
       end
