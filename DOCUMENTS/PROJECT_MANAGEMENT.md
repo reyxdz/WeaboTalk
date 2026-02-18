@@ -60,10 +60,10 @@ WeaboTalk is a social platform designed for anime enthusiasts to connect, share 
    - **Estimation**: 1 story point
    - **Priority**: 🔴 Critical
 
-3. **US-1.3: Password Recovery**
-   - [ ] Forgot password flow
-   - [ ] Reset password via email link
-   - [ ] Token expiration
+3. **US-1.3: Password Recovery** ✅
+   - [✅] Forgot password flow
+   - [✅] Reset password via email link
+   - [✅] Token expiration
    - **Estimation**: 1 story point
    - **Priority**: 🟠 High
 
