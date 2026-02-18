@@ -1,20 +1,24 @@
 <div class="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4 py-12">
   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+    <!-- Flash Messages -->
+    <% if alert.present? %>
+      <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6 rounded">
+        <p class="text-yellow-800 text-sm font-semibold"><%= alert %></p>
+      </div>
+    <% end %>
+
+    <% if notice.present? %>
+      <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded">
+        <p class="text-green-800 text-sm font-semibold"><%= notice %></p>
+      </div>
+    <% end %>
+
     <!-- Header -->
     <div class="text-center mb-8">
       <div class="text-6xl mb-4">✓</div>
       <h1 class="text-3xl font-bold text-gray-900 mb-2">Check Your Email</h1>
       <p class="text-gray-600">Almost there! Let's confirm your email address</p>
     </div>
-
-    <!-- Alert Message if redirected from sign-in attempt -->
-    <% if alert %>
-      <div class="bg-orange-50 border-l-4 border-orange-500 p-4 mb-6 rounded">
-        <p class="text-orange-900 text-sm font-semibold">
-          ℹ️ <%= alert %>
-        </p>
-      </div>
-    <% end %>
 
     <!-- Main Message -->
     <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded">
