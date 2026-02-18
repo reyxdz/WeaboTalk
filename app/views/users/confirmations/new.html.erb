@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4 py-12">
+<div class="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4 py-12">
   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
     <!-- Header -->
     <div class="text-center mb-8">
@@ -6,6 +6,15 @@
       <h1 class="text-3xl font-bold text-gray-900 mb-2">Check Your Email</h1>
       <p class="text-gray-600">Almost there! Let's confirm your email address</p>
     </div>
+
+    <!-- Alert Message if redirected from sign-in attempt -->
+    <% if alert %>
+      <div class="bg-orange-50 border-l-4 border-orange-500 p-4 mb-6 rounded">
+        <p class="text-orange-900 text-sm font-semibold">
+          ℹ️ <%= alert %>
+        </p>
+      </div>
+    <% end %>
 
     <!-- Main Message -->
     <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded">
@@ -20,19 +29,19 @@
       <p class="text-gray-700 font-semibold mb-3">What to do next:</p>
       <ol class="space-y-3">
         <li class="flex items-start">
-          <span class="flex-shrink-0 flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white text-sm font-semibold mr-3">1</span>
+          <span class="shrink-0 flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white text-sm font-semibold mr-3">1</span>
           <span class="text-gray-700">Check your email inbox</span>
         </li>
         <li class="flex items-start">
-          <span class="flex-shrink-0 flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white text-sm font-semibold mr-3">2</span>
+          <span class="shrink-0 flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white text-sm font-semibold mr-3">2</span>
           <span class="text-gray-700">Look for "Welcome to WeaboTalk" email</span>
         </li>
         <li class="flex items-start">
-          <span class="flex-shrink-0 flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white text-sm font-semibold mr-3">3</span>
+          <span class="shrink-0 flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white text-sm font-semibold mr-3">3</span>
           <span class="text-gray-700">Click the confirmation link</span>
         </li>
         <li class="flex items-start">
-          <span class="flex-shrink-0 flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white text-sm font-semibold mr-3">4</span>
+          <span class="shrink-0 flex items-center justify-center h-6 w-6 rounded-full bg-indigo-600 text-white text-sm font-semibold mr-3">4</span>
           <span class="text-gray-700">You'll be automatically logged in!</span>
         </li>
       </ol>
