@@ -1,5 +1,5 @@
 <!-- Navigation Bar -->
-<nav class="bg-slate-950/80 backdrop-blur-lg sticky top-0 z-40 shadow-lg">
+<nav class="bg-slate-950/80 backdrop-blur-lg sticky top-0 z-50 shadow-lg">
   <div class="container mx-auto px-4 py-3 flex items-center justify-between">
     <!-- Logo -->
     <div class="flex items-center space-x-2">
@@ -26,7 +26,7 @@
           </button>
 
           <!-- Dropdown Menu (Hidden by default, shown on hover) -->
-          <div class="absolute right-0 top-full -mt-1 w-48 bg-slate-900/95 backdrop-blur-md border border-slate-700/50 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto pointer-events-none transition-all duration-200 py-2 pt-3">
+          <div class="absolute right-0 mt-1 w-48 bg-slate-900/95 backdrop-blur-md border border-slate-700/50 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2">
             <!-- User Info -->
             <div class="px-4 py-2 border-b border-slate-700/30">
               <p class="text-sm font-semibold text-slate-100"><%= current_user.email %></p>

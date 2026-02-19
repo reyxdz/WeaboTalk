@@ -29,7 +29,7 @@
 
     <!-- Flash Notifications (outside main for proper positioning) -->
     <% if notice.present? %>
-      <div class="fixed top-20 left-0 right-0 flex justify-center z-50">
+      <div class="fixed top-20 left-0 right-0 flex justify-center z-40">
         <div class="w-96 bg-emerald-900/80 border border-emerald-500/50 p-4 rounded-lg shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-top duration-300 notification-toast" data-type="notice">
           <div class="flex items-start gap-3">
             <svg class="w-6 h-6 text-emerald-400 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -59,7 +59,7 @@
     <% end %>
 
     <% if alert.present? %>
-      <div class="fixed top-20 left-0 right-0 flex justify-center z-50">
+      <div class="fixed top-20 left-0 right-0 flex justify-center z-40">
         <div class="w-96 bg-rose-900/80 border border-rose-500/50 p-4 rounded-lg shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-top duration-300 notification-toast" data-type="alert">
           <div class="flex items-start gap-3">
             <svg class="w-6 h-6 text-rose-400 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
