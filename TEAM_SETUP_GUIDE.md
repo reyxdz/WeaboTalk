@@ -28,30 +28,111 @@ Each team member needs to install these on their computer:
 
 ---
 
-## Initial Setup (First Time Only)
+## Getting the Code: Clone the Repository
 
-### Step 1: Clone the Repository
+### **What is Cloning?**
+
+Cloning downloads the entire project from GitHub to your computer, including all the code, git history, and branches.
+
+### **Step 0: Choose a Location**
+
+First, decide where on your computer you want the project:
+
 ```powershell
-# Navigate to where you want the project
-cd "C:\Your Projects"
+# Example locations:
+cd "C:\Projects"
+# or
+cd "D:\Development"
+# or
+cd "$env:USERPROFILE\Projects"  # Home folder
 
-# Clone the WeaboTalk repository
+# Then list what's there to confirm
+ls
+```
+
+### **Step 1: Generate GitHub SSH Key (First Time Only)**
+
+**SSH is more secure than HTTPS** - do this once per computer.
+
+```powershell
+# Generate a key (replace email with yours)
+ssh-keygen -t ed25519 -C "your.email@gmail.com"
+
+# When prompted to save the key, just press Enter (default location)
+# When prompted for passphrase, press Enter (or set a password)
+```
+
+**Add the key to GitHub:**
+
+```powershell
+# Copy your public key
+Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | Set-Clipboard
+```
+
+Then:
+1. Go to https://github.com/settings/keys
+2. Click **"New SSH key"**
+3. Paste the key (Ctrl+V)
+4. Name it: "My Laptop" or "Work Computer"
+5. Click **"Add SSH key"**
+
+**Test the connection:**
+```powershell
+ssh -T git@github.com
+# Should show: "Hi [username]! You've successfully authenticated..."
+```
+
+✅ Now you never have to enter GitHub password again!
+
+### **Step 2: Clone the Repository**
+
+Using SSH (recommended - no password needed):
+```powershell
+git clone git@github.com:reyxdz/WeaboTalk.git
+cd WeaboTalk
+```
+
+Or using HTTPS (will ask for password each time):
+```powershell
 git clone https://github.com/reyxdz/WeaboTalk.git
 cd WeaboTalk
 ```
 
-### Step 2: Install Ruby Dependencies
+### **Step 3: Verify You Have the Latest Code**
+
+```powershell
+# Check current branch (should be main)
+git branch
+
+# See the last 5 commits
+git log --oneline -5
+
+# Get latest updates from GitHub
+git fetch origin
+
+# Check status
+git status
+# Should show: "On branch main, Your branch is up to date with 'origin/main'"
+```
+
+---
+
+## Initial Setup (First Time Only)
+
+### Step 1: Install Ruby Dependencies
+
+In your WeaboTalk project folder:
 ```powershell
 bundle install
 ```
 *This takes 2-5 minutes the first time*
 
-### Step 3: Install Node.js Dependencies
+### Step 2: Install Node.js Dependencies
 ```powershell
 npm install
 ```
 
-### Step 4: Create Your Local Database
+### Step 3: Create Your Local Database
 ```powershell
 # Replace 'your_postgres_password' with the password you set during PostgreSQL installation
 $env:POSTGRES_PASSWORD = "your_postgres_password"
@@ -220,24 +301,71 @@ rails db:migrate
 
 ## Fixing Common Issues
 
-### "Error: Could not find PostgreSQL"
+### **Cloning Issues**
+
+| Error | Solution |
+|-------|----------|
+| "Permission denied (publickey)" | SSH key not set up - use HTTPS cloning instead, or set up SSH (see Getting the Code section) |
+| "Repository not found" | Check the URL: `https://github.com/reyxdz/WeaboTalk.git` |
+| "Could not resolve host" | Check your internet connection |
+| "Already exists" | Folder already there - delete it: `rm -Recurse WeaboTalk` and try again |
+| "fatal: The remote end hung up unexpectedly" | Network issue - try cloning again |
+
+### **Post-Clone Verification**
+
+After cloning, verify everything is correct:
+
+```powershell
+# Make sure you're in the right folder
+cd WeaboTalk
+pwd  # Check current location shows WeaboTalk path
+
+# Verify the repo is healthy
+git status
+# Should show: "On branch main, Your branch is up to date with 'origin/main'"
+
+# Check git history
+git log --oneline -1
+# Should show the latest commit from GitHub
+
+# List all files to confirm complete clone
+ls -la
+# Should show: app/, config/, db/, Gemfile, package.json, etc.
+```
+
+### **PostgreSQL Issues**
+
+**Error: "Could not find PostgreSQL"**
 - Make sure PostgreSQL is installed and running
 - On Windows, use Services app to start PostgreSQL service
 - Check: `psql -U postgres -c "SELECT version();"`
 
-### "Yarn not installed" or Missing dependencies
+**Can't connect to database**
+```powershell
+# Verify PostgreSQL is running
+Get-Service PostgreSQL* | Format-Table Name, Status
+
+# If stopped, start it
+Start-Service PostgreSQL14  # or your version
+```
+
+### **Dependency Issues**
+
+**"Yarn not installed" or Missing dependencies**
 ```powershell
 npm install
 bundle install
 ```
 
-### Database errors after pulling latest code
+**Database errors after pulling latest code**
 ```powershell
 $env:POSTGRES_PASSWORD = "your_postgres_password"
 rails db:migrate
 ```
 
-### Port 3000 already in use
+### **Runtime Issues**
+
+**Port 3000 already in use**
 ```powershell
 # Kill existing Rails process
 Get-Process -Name "ruby" -ErrorAction SilentlyContinue | Stop-Process -Force
@@ -247,7 +375,7 @@ Start-Sleep -Seconds 2
 rails server -p 3000
 ```
 
-### CSS/Tailwind not applying
+**CSS/Tailwind not applying**
 ```powershell
 # Ensure tailwindcss:watch is running in Terminal 2
 # If not, kill and restart:
@@ -282,25 +410,46 @@ bin/rails tailwindcss:watch
 
 ## Quick Start Summary
 
+### **First Time (One Computer - 10 minutes)**
+
 ```powershell
-# First time setup
-git clone https://github.com/reyxdz/WeaboTalk.git
+# 1. Set up GitHub SSH (do once per computer)
+ssh-keygen -t ed25519 -C "your.email@gmail.com"
+# Then add the key to GitHub: https://github.com/settings/keys
+
+# 2. Clone the repository
+git clone git@github.com:reyxdz/WeaboTalk.git
 cd WeaboTalk
+
+# 3. Install everything
 bundle install
 npm install
-$env:POSTGRES_PASSWORD = "your_password"
+
+# 4. Setup database
+$env:POSTGRES_PASSWORD = "your_local_postgres_password"
 rails db:create
 rails db:migrate
+rails db:seed  # Optional
 
-# Every time you code
-$env:POSTGRES_PASSWORD = "your_password"
-rails server -p 3000
-
-# In another terminal
-bin/rails tailwindcss:watch
-
-# Visit http://localhost:3000
+# ✅ You're ready!
 ```
+
+### **Every Time You Code (Start of Session)**
+
+Terminal 1:
+```powershell
+cd WeaboTalk
+$env:POSTGRES_PASSWORD = "your_local_postgres_password"
+rails server -p 3000
+```
+
+Terminal 2:
+```powershell
+cd WeaboTalk
+bin/rails tailwindcss:watch
+```
+
+Then open: http://localhost:3000
 
 ---
 
