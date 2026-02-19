@@ -15,7 +15,7 @@
         <!-- User Dropdown Menu -->
         <div class="relative group">
           <!-- User Avatar/Email Button -->
-          <button class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-slate-800/50 transition duration-200 text-slate-300">
+          <button class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-slate-800/50 transition duration-200 text-slate-300" type="button">
             <div class="hidden sm:block text-right">
               <p class="text-sm font-semibold text-slate-100 truncate"><%= current_user.email %></p>
               <p class="text-xs text-slate-400">User</p>
@@ -26,7 +26,7 @@
           </button>
 
           <!-- Dropdown Menu (Hidden by default, shown on hover) -->
-          <div class="absolute right-0 w-48 bg-slate-900/95 backdrop-blur-md border border-slate-700/50 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2">
+          <div class="absolute right-0 top-full -mt-1 w-48 bg-slate-900/95 backdrop-blur-md border border-slate-700/50 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto pointer-events-none transition-all duration-200 py-2 pt-3">
             <!-- User Info -->
             <div class="px-4 py-2 border-b border-slate-700/30">
               <p class="text-sm font-semibold text-slate-100"><%= current_user.email %></p>
