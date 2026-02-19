@@ -227,6 +227,8 @@ git commit -m "Add user authentication feature
 git push origin feature/your-feature-name
 ```
 
+✅ **Important:** This pushes to `feature/your-feature-name`, NOT to `main`!
+
 ### Creating a Pull Request
 
 1. Go to https://github.com/reyxdz/WeaboTalk
@@ -236,6 +238,106 @@ git push origin feature/your-feature-name
 5. Click "Create pull request"
 
 **Then wait for code review & approval before merging to `main`**
+
+---
+
+## ⚠️ Protected Main Branch (Important!)
+
+### **Your Code Does NOT Go Directly to Main**
+
+When you push your feature branch, it's **completely separate** from the main branch:
+
+```
+Your Computer                GitHub                     Live Site
+─────────────────────────────────────────────────────────────────
+You push code  ──→  feature/your-feature  ✅ Safe!
+(git push)          (Shows as PR)                  Main branch
+                                                   stays protected
+                Only leader can                    ↓
+                merge to main                  Production code
+```
+
+### **Step-by-Step Protection**
+
+1. **You push to your feature branch**
+   ```powershell
+   git push origin feature/anime-recommendations
+   ```
+   ✅ Code goes to GitHub, but **NOT to main**
+
+2. **You create a Pull Request**
+   - Code is ready for review
+   - Leader gets notification
+
+3. **Leader reviews your code**
+   - Checks for bugs
+   - Tests it locally
+   - Approves or requests changes
+
+4. **Leader merges to main**
+   - Only after approval
+   - Now it's in production
+
+5. **Feature branch is deleted**
+   - Clean history maintained
+
+### **You Cannot Accidentally Break Main**
+
+Even if you try to force push:
+```powershell
+# This will FAIL (don't worry, it's blocked!)
+git push origin main
+
+# Error: 🚫
+# [rejected]  main -> main 
+# (protected branch)
+```
+
+**Why?** Branch protection rules prevent:
+- ❌ Direct pushes to main
+- ❌ Merging without approval
+- ❌ Code going live without review
+
+### **The Safe Workflow**
+
+```
+Step 1: Create branch
+├─ git checkout -b feature/your-feature
+
+Step 2: Code & Commit
+├─ Make changes
+├─ git add .
+├─ git commit -m "..."
+
+Step 3: Push to GitHub
+├─ git push origin feature/your-feature
+├─ ✅ Safe! Goes to feature branch only
+
+Step 4: Create Pull Request
+├─ On GitHub
+├─ ✅ Waiting for review (locked)
+
+Step 5: Leader Reviews
+├─ Tests your code
+├─ Checks for issues
+├─ Approves ✓
+
+Step 6: Merge to Main
+├─ Leader clicks "Merge"
+├─ ✅ Now in production
+└─ You & everyone pulls latest
+```
+
+### **What to Do When Your PR is Approved**
+
+```powershell
+# Nothing! Just pull the latest main when ready for next feature
+git fetch origin
+git pull origin main
+
+# Then create new feature branch for next feature
+git checkout -b feature/next-feature
+```
 
 ---
 
