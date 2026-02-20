@@ -80,94 +80,125 @@ WeaboTalk is a social platform designed for anime enthusiasts to connect, share 
 
 ### **Phase 3: Content Creation (Week 3-4)**
 
-#### Member 2 Tasks:
-1. **US-2.1: Create Text Post**
-   - [ ] Post model with title and content fields
-   - [ ] Character limit validation
-   - [ ] Draft saving functionality
-   - [ ] Post preview with Stimulus
-   - [ ] Real-time form validation
-   - **Estimation**: 2 story points
-   - **Priority**: 🔴 Critical
-
-2. **US-2.2: Image Upload & Post**
-   - [ ] Active Storage integration
-   - [ ] Multi-image upload
-   - [ ] Image validation (format, size)
-   - [ ] Drag-and-drop upload with Stimulus
-   - [ ] Image preview generation
-   - **Estimation**: 3 story points
-   - **Priority**: 🔴 Critical
-
-3. **US-2.3: Edit & Delete Posts**
-   - [ ] Edit post content
-   - [ ] Delete with confirmation
-   - [ ] Authorization (only author can edit/delete)
-   - [ ] Edit timeline tracking
-   - [ ] Real-time UI updates with Stimulus
-   - **Estimation**: 2 story points
-   - **Priority**: 🟠 High
-
-4. **US-2.4: Post Feed & Pagination**
-   - [ ] Display all posts chronologically
-   - [ ] Pagination implementation
-   - [ ] Infinite scroll with Stimulus
-   - [ ] Post detail view
-   - **Estimation**: 2 story points
-   - **Priority**: 🟠 High
+Here is your updated checklist with check marks added ✅
 
 ---
 
-### **Phase 4: Social Features (Week 4-5)**
+#### Member 2 Tasks:
+
+### 1. **US-2.1: Create Text Post**
+
+* [x] Post model with title and content fields
+* [x] Character limit validation
+* [x] Draft saving functionality
+* [x] Post preview with Stimulus
+* [x] Real-time form validation
+* **Estimation**: 2 story points
+* **Priority**: 🔴 Critical
+
+---
+
+### 2. **US-2.2: Image Upload & Post**
+
+* [x] Active Storage integration
+* [x] Multi-image upload
+* [x] Image validation (format, size)
+* [x] Drag-and-drop upload with Stimulus
+* [x] Image preview generation
+* **Estimation**: 3 story points
+* **Priority**: 🔴 Critical
+
+---
+
+### 3. **US-2.3: Edit & Delete Posts**
+
+* [x] Edit post content
+* [x] Delete with confirmation
+* [x] Authorization (only author can edit/delete)
+* [x] Edit timeline tracking
+* [x] Real-time UI updates with Stimulus
+* **Estimation**: 2 story points
+* **Priority**: 🟠 High
+
+---
+
+### 4. **US-2.4: Post Feed & Pagination**
+
+* [x] Display all posts chronologically
+* [x] Pagination implementation
+* [x] Infinite scroll with Stimulus
+* [x] Post detail view
+* **Estimation**: 2 story points
+* **Priority**: 🟠 High
+
+---
+
+## **Phase 4: Social Features (Week 4-5)**
 
 #### Member 3 Tasks:
-1. **US-3.1: Like & React to Posts**
-   - [ ] Like model and associations
-   - [ ] Reaction types (emoji reactions)
-   - [ ] Toggle like functionality
-   - [ ] Real-time like count with Stimulus
-   - [ ] Like/reaction list view
-   - **Estimation**: 2 story points
-   - **Priority**: 🔴 Critical
 
-2. **US-3.2: Comments & Discussion**
-   - [ ] Comment model with associations
-   - [ ] Create/read/delete comments
-   - [ ] Comment thread display
-   - [ ] Nested comment replies
-   - [ ] Real-time comment loading with Stimulus
-   - **Estimation**: 3 story points
-   - **Priority**: 🔴 Critical
+### 1. **US-3.1: Like & React to Posts**
 
-3. **US-3.3: Real-time Notifications via Action Cable**
-   - [ ] Action Cable channel setup
-   - [ ] Notification model and associations
-   - [ ] WebSocket connection for notifications
-   - [ ] Notification bell with unread count
-   - [ ] Mark as read/dismiss functionality
-   - [ ] Real-time notification broadcasting
-   - **Estimation**: 4 story points
-   - **Priority**: 🔴 Critical
-
-4. **US-3.4: Friend System**
-   - [ ] Friendship model with states (pending, accepted)
-   - [ ] Send friend request
-   - [ ] Accept/reject requests
-   - [ ] Unfriend functionality
-   - [ ] Friend list view
-   - [ ] Mutual friends display
-   - **Estimation**: 3 story points
-   - **Priority**: 🟠 High
-
-5. **US-3.5: User Search**
-   - [ ] Search user by username
-   - [ ] Search results display
-   - [ ] Real-time search with Stimulus
-   - [ ] View user profile from search
-   - **Estimation**: 2 story points
-   - **Priority**: 🟠 High
+* [x] Like model and associations
+* [x] Reaction types (emoji reactions)
+* [x] Toggle like functionality
+* [x] Real-time like count with Stimulus
+* [x] Like/reaction list view
+* **Estimation**: 2 story points
+* **Priority**: 🔴 Critical
 
 ---
+
+### 2. **US-3.2: Comments & Discussion**
+
+* [x] Comment model with associations
+* [x] Create/read/delete comments
+* [x] Comment thread display
+* [x] Nested comment replies
+* [x] Real-time comment loading with Stimulus
+* **Estimation**: 3 story points
+* **Priority**: 🔴 Critical
+
+---
+
+### 3. **US-3.3: Real-time Notifications via Action Cable**
+
+* [x] Action Cable channel setup
+* [x] Notification model and associations
+* [x] WebSocket connection for notifications
+* [x] Notification bell with unread count
+* [x] Mark as read/dismiss functionality
+* [x] Real-time notification broadcasting
+* **Estimation**: 4 story points
+* **Priority**: 🔴 Critical
+
+---
+
+### 4. **US-3.4: Friend System**
+
+* [x] Friendship model with states (pending, accepted)
+* [x] Send friend request
+* [x] Accept/reject requests
+* [x] Unfriend functionality
+* [x] Friend list view
+* [x] Mutual friends display
+* **Estimation**: 3 story points
+* **Priority**: 🟠 High
+
+---
+
+### 5. **US-3.5: User Search**
+
+* [x] Search user by username
+* [x] Search results display
+* [x] Real-time search with Stimulus
+* [x] View user profile from search
+* **Estimation**: 2 story points
+* **Priority**: 🟠 High
+
+---
+
+
 
 ### **Phase 5: Notification Triggers (Week 5-6)**
 
