@@ -1,0 +1,23 @@
+<% if user_signed_in? && current_user.id != user.id %>
+  <% friendship = current_user.active_friendships.find_by(friend: user) %>
+
+  <% if friendship %>
+    <% if friendship.accepted? %>
+      <button class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold" disabled>✓ Friends</button>
+      <%= button_to "Unfriend", friendship_path(friendship), method: :delete, local: true, class: "px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-semibold" %>
+    <% elsif friendship.status == "pending" %>
+      <button class="px-4 py-2 bg-yellow-600 text-white rounded-lg font-semibold" disabled>⏳ Request Sent</button>
+    <% end %>
+  <% else %>
+    <% pending_request = current_user.passive_friendships.find_by(user: user, status: "pending") %>
+
+    <% if pending_request %>
+      <div class="flex gap-2">
+        <%= button_to "Accept", friendship_path(pending_request), method: :patch, params: { friendship: { accepted: true } }, local: true, class: "px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold" %>
+        <%= button_to "Decline", friendship_path(pending_request), method: :delete, local: true, class: "px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-semibold" %>
+      </div>
+    <% else %>
+      <%= button_to "Add Friend", friendships_path, params: { friend_id: user.id }, method: :post, local: true, class: "px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold" %>
+    <% end %>
+  <% end %>
+<% end %>

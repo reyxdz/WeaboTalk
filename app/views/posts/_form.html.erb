@@ -1,0 +1,93 @@
+<div data-controller="post-form">
+  <%= form_with(model: @post, local: true, html: { multipart: true, id: "post-form" }, class: "space-y-6") do |form| %>
+    <% if @post.errors.any? %>
+      <div class="bg-rose-900/50 border border-rose-500/50 rounded-lg p-4">
+        <h2 class="text-sm font-semibold text-rose-200 mb-2"><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+        <ul class="list-disc list-inside text-rose-100 text-sm space-y-1">
+          <% @post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Title -->
+    <div>
+      <%= form.label :title, class: "block text-sm font-semibold text-slate-200 mb-2" %>
+      <%= form.text_field :title, class: "w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" %>
+    </div>
+
+    <!-- Content -->
+    <div>
+      <%= form.label :content, class: "block text-sm font-semibold text-slate-200 mb-2" %>
+      <%= form.text_area :content, rows: 6, class: "w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" %>
+      <p class="text-xs text-slate-400 mt-2">Share your thoughts, reviews, or discussions about anime!</p>
+    </div>
+
+    <!-- Images -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-200 mb-2">Images</label>
+      <div id="post-images-container" data-target="post-form.container" class="space-y-3">
+        <%= form.fields_for :post_images do |image_form| %>
+          <%= render "posts/image_fields", form: image_form %>
+        <% end %>
+      </div>
+      <button id="add-image-btn" type="button" class="mt-4 px-4 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg text-sm font-semibold transition" data-action="click->post-form#addImage">+ Add Image</button>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex gap-3 pt-4">
+      <%= form.submit class: "px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition font-semibold" %>
+      <%= link_to "Cancel", posts_path, class: "px-6 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg transition font-semibold" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  // Fallback for Add Image when Stimulus isn't available (works without npm build)
+  (function() {
+    function addImageField() {
+      const container = document.getElementById('post-images-container')
+      if (!container) return
+      const newIndex = Math.floor(Math.random() * 10000)
+      const wrapper = document.createElement('div')
+      wrapper.className = 'flex gap-3 items-end image-wrapper'
+      wrapper.innerHTML = `
+        <div class="flex-1">
+          <input type="file" accept="image/*" name="post[post_images_attributes][${newIndex}][image]" class="w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-3 py-2 text-slate-100 file:mr-4 file:py-2 file:px-3 file:rounded file:border-0 file:bg-purple-600 file:text-white file:font-semibold file:cursor-pointer hover:file:bg-purple-700" />
+        </div>
+        <button type="button" class="px-4 py-2 bg-rose-600/50 hover:bg-rose-600 text-rose-100 rounded-lg text-sm font-semibold transition remove-image-btn">Remove</button>
+      `
+      container.appendChild(wrapper)
+    }
+
+    function removeImage(event) {
+      const btn = event.target
+      if (!btn.classList.contains('remove-image-btn')) return
+      event.preventDefault()
+      const wrapper = btn.closest('.image-wrapper')
+      if (wrapper) wrapper.remove()
+    }
+
+    function cleanupEmptyImages(event) {
+      const imageInputs = document.querySelectorAll('input[name*="post_images_attributes"][type="file"]')
+      imageInputs.forEach(input => {
+        if (!input.files || input.files.length === 0) {
+          const wrapper = input.closest('.image-wrapper')
+          if (wrapper) wrapper.remove()
+        }
+      })
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const addBtn = document.getElementById('add-image-btn')
+      if (addBtn) addBtn.addEventListener('click', addImageField)
+      document.addEventListener('click', removeImage)
+      
+      const form = document.getElementById('post-form')
+      if (form) {
+        form.addEventListener('submit', cleanupEmptyImages)
+      }
+    })
+  })()
+</script>

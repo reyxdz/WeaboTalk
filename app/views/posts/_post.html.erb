@@ -1,0 +1,39 @@
+<div id="post-<%= post.id %>" class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 mb-6 shadow-lg hover:shadow-xl transition">
+  <%= render Posts::HeaderComponent.new(post: post, current_user: current_user) %>
+  <div class="mb-4">
+    <% if post.title.present? %>
+      <h3 class="text-xl font-bold text-slate-100 mb-2">
+        <%= link_to post.title, post_path(post), class: "hover:text-purple-400 transition" %>
+      </h3>
+    <% end %>
+    <p class="text-slate-300 leading-relaxed whitespace-pre-wrap">
+      <%= link_to_user_mentions(post.content) %>
+    </p>
+  </div>
+
+  <% if post.post_images.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <% post.post_images.each do |image| %>
+        <% if image.image.attached? %>
+          <div class="rounded-lg overflow-hidden">
+            <%= image_tag image.image, alt: "Post image", class: "w-full h-48 object-cover" %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Post Stats -->
+  <div class="flex gap-4 text-sm text-slate-400 mb-4 py-3 border-y border-slate-700/30">
+    <span><strong class="text-slate-200"><%= post.likes.count %></strong> likes</span>
+    <span><strong class="text-slate-200"><%= post.reactions.count %></strong> reactions</span>
+    <span><strong class="text-slate-200"><%= post.comments.count %></strong> comments</span>
+  </div>
+
+  <!-- Like, Reaction, Comment Buttons -->
+  <div id="<%= dom_id(post, :actions) %>" class="flex gap-2">
+    <%= render "likes/like_button", post: post %>
+    <%= render "reactions/reaction_button", post: post %>
+    <%= link_to "💬 Comment", post_path(post), class: "flex-1 py-2 text-center rounded-lg hover:bg-slate-700/50 text-slate-300 transition font-semibold text-sm" %>
+  </div>
+</div>

@@ -51,6 +51,19 @@
               <% if @is_own_profile %>
                 <%= link_to "Edit Profile", edit_profile_path(@profile.username), 
                     class: "px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-lg transition duration-300 shadow-lg hover:shadow-purple-500/50 transform hover:scale-105 whitespace-nowrap h-fit" %>
+              <% else %>
+                <!-- Add Friend Button (for other profiles) -->
+                <% friendship = current_user&.friendships&.find_by(friend_id: @user.id) %>
+                <% if current_user && current_user.id != @user.id %>
+                  <% if friendship&.status == "accepted" %>
+                    <button class="px-6 py-3 bg-green-600/50 text-green-300 font-bold rounded-lg cursor-default whitespace-nowrap h-fit" disabled>✓ Friends</button>
+                  <% elsif friendship&.status == "pending" %>
+                    <button class="px-6 py-3 bg-yellow-600/50 text-yellow-300 font-bold rounded-lg cursor-default whitespace-nowrap h-fit" disabled>⏳ Pending</button>
+                  <% else %>
+                    <%= button_to "Add Friend", friendships_path(friend_id: @user.id), method: :post, 
+                        class: "px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-lg transition duration-300 shadow-lg hover:shadow-purple-500/50 transform hover:scale-105 whitespace-nowrap" %>
+                  <% end %>
+                <% end %>
               <% end %>
             </div>
 
@@ -62,16 +75,12 @@
             <!-- Stats -->
             <div class="flex gap-8 mt-8">
               <div class="text-center">
-                <p class="text-3xl md:text-4xl font-black bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">0</p>
+                <p class="text-3xl md:text-4xl font-black bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"><%= @posts_count %></p>
                 <p class="text-slate-400 mt-1 text-sm font-medium">Posts</p>
               </div>
               <div class="text-center">
-                <p class="text-3xl md:text-4xl font-black bg-linear-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent"><%= @profile.followers_count %></p>
-                <p class="text-slate-400 mt-1 text-sm font-medium">Followers</p>
-              </div>
-              <div class="text-center">
-                <p class="text-3xl md:text-4xl font-black bg-linear-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent"><%= @profile.following_count %></p>
-                <p class="text-slate-400 mt-1 text-sm font-medium">Following</p>
+                <p class="text-3xl md:text-4xl font-black bg-linear-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent"><%= @friends_count %></p>
+                <p class="text-slate-400 mt-1 text-sm font-medium">Friends</p>
               </div>
             </div>
           </div>
@@ -111,15 +120,23 @@
         <div class="lg:col-span-2">
           <div class="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-xl p-8 shadow-xl hover:shadow-purple-500/10 transition">
             <h2 class="text-2xl font-black bg-linear-to-r from-purple-300 via-pink-300 to-indigo-300 bg-clip-text text-transparent mb-6">Posts</h2>
-            <div class="text-center py-16">
-              <div class="p-4 bg-slate-700/30 rounded-full w-fit mx-auto mb-4 backdrop-blur">
-                <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m0 0h6m0 0v6m0-6h-6m0 0V6" />
-                </svg>
+            <% if @posts.any? %>
+              <div class="space-y-6">
+                <% @posts.each do |post| %>
+                  <%= render "posts/post", post: post %>
+                <% end %>
               </div>
-              <p class="text-slate-400 font-medium">No posts yet</p>
-              <p class="text-slate-500 text-sm mt-2">Start sharing your thoughts with the community</p>
-            </div>
+            <% else %>
+              <div class="text-center py-16">
+                <div class="p-4 bg-slate-700/30 rounded-full w-fit mx-auto mb-4 backdrop-blur">
+                  <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m0 0h6m0 0v6m0-6h-6m0 0V6" />
+                  </svg>
+                </div>
+                <p class="text-slate-400 font-medium">No posts yet</p>
+                <p class="text-slate-500 text-sm mt-2">Start sharing your thoughts with the community</p>
+              </div>
+            <% end %>
           </div>
         </div>
 

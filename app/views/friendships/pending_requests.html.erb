@@ -1,0 +1,43 @@
+<div class="min-h-screen bg-slate-950 text-white">
+  <div class="container mx-auto px-4 py-8 max-w-3xl">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-2">
+        <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Friend Requests</span>
+      </h1>
+      <p class="text-slate-400">Accept or decline friendship requests</p>
+    </div>
+
+    <!-- Friend Requests -->
+    <div class="space-y-4">
+      <% if current_user.passive_friendships.pending.any? %>
+        <% current_user.passive_friendships.pending.includes(:user).each do |friendship| %>
+          <div id="friendship-<%= friendship.id %>" class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 flex items-center justify-between">
+            <!-- User Info -->
+            <div class="flex items-center gap-4">
+              <%= render Profiles::ImageComponent.new(user: friendship.user, size: "lg") %>
+              <div>
+                <p class="font-semibold text-slate-200">
+                  <%= link_to friendship.user.profile&.username || friendship.user.email, profile_path(friendship.user.profile&.username), class: "hover:text-purple-400 transition" %>
+                </p>
+                <p class="text-sm text-slate-400">Sent you a friend request</p>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex gap-2">
+              <%= button_to "Accept", friendship_path(friendship), method: :patch, local: true, params: { friendship: { accepted: true } }, class: "px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold text-sm" %>
+              <%= button_to "Decline", friendship_path(friendship), method: :delete, local: true, class: "px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-semibold text-sm" %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="text-center py-12">
+          <div class="text-6xl mb-4">🎌</div>
+          <h2 class="text-xl font-semibold text-slate-300">No friend requests</h2>
+          <p class="text-slate-400 mt-2">You're all caught up!</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

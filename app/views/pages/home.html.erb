@@ -35,20 +35,31 @@
       
       <!-- Main Feed Container -->
       <div class="container mx-auto px-4 py-8 max-w-3xl">
-        <!-- Create Post Box (Placeholder) -->
+        <!-- Create Post Box -->
         <div class="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-xl p-6 mb-8 shadow-lg">
           <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 shrink-0"></div>
-            <input 
-              type="text" 
-              placeholder="What's on your mind? (Coming soon...)" 
-              class="flex-1 bg-slate-700/50 border border-slate-600/50 rounded-full px-4 py-3 text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled opacity-50" 
-              disabled
-            />
+            <%= render Profiles::ImageComponent.new(user: current_user, size: "md") %>
+            <%= link_to "What's on your mind? Share your thoughts...", new_post_path, class: "flex-1 bg-slate-700/50 border border-slate-600/50 rounded-full px-4 py-3 text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 block hover:bg-slate-700 transition" %>
           </div>
         </div>
 
-        <!-- Posts Feed -->
+        <!-- Posts Feed Container -->
+        <div id="posts-feed">
+          <% if @posts&.any? %>
+            <% @posts.each do |post| %>
+              <%= render "posts/post", post: post %>
+            <% end %>
+          <% else %>
+            <div class="text-center py-12 bg-slate-800/30 border border-slate-700/30 rounded-xl">
+              <div class="text-6xl mb-4">📝</div>
+              <h2 class="text-xl font-semibold text-slate-300">No posts yet</h2>
+              <p class="text-slate-400 mt-2">Follow friends and share your thoughts to see posts here!</p>
+              <%= link_to "Be the first to post", new_post_path, class: "inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold" %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Original dummy posts below (for reference, can be removed) -->
         <!-- Post 1 -->
         <div class="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden shadow-lg mb-6 hover:shadow-purple-500/10 transition">
           <!-- Post Header -->

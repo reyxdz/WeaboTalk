@@ -1,0 +1,9 @@
+<div id="comment-list-<%= post.id %>" class="space-y-4">
+  <% if comments.any? %>
+    <% comments.each do |comment| %>
+      <%= render "comments/comment", comment: comment, post: post %>
+    <% end %>
+  <% else %>
+    <p class="text-slate-400 text-center py-6">No comments yet. Be the first to comment!</p>
+  <% end %>
+</div>

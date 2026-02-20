@@ -1,0 +1,16 @@
+<div class="min-h-screen bg-slate-950 text-white">
+  <div class="container mx-auto px-4 py-8 max-w-2xl">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-2">
+        <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Create New Post</span>
+      </h1>
+      <p class="text-slate-400">Share your thoughts, reviews, and discussions about anime</p>
+    </div>
+
+    <!-- Form Container -->
+    <div class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-xl p-8 shadow-lg">
+      <%= render "posts/form", post: @post %>
+    </div>
+  </div>
+</div>

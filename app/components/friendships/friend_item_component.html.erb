@@ -1,0 +1,17 @@
+<div class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-lg p-4 flex items-center justify-between hover:border-slate-700 transition">
+  <div class="flex items-center gap-4 flex-1">
+    <%= render Profiles::ImageComponent.new(user: friend, size: "lg") %>
+    
+    <div class="flex-1">
+      <h3 class="font-semibold text-slate-100 text-lg">
+        <%= link_to friend_username, friend_profile_path, class: "hover:text-purple-400 transition" %>
+      </h3>
+      <p class="text-sm text-slate-400 mt-1 line-clamp-2"><%= friend_bio %></p>
+    </div>
+  </div>
+
+  <div class="flex gap-2">
+    <%= link_to "View Profile", friend_profile_path, class: "px-3 py-2 bg-purple-600/50 hover:bg-purple-600 text-white rounded-lg transition text-sm font-semibold" %>
+    <%= button_to "Remove", friendship_path(friendship_id), method: :delete, local: true, data: { confirm: "Remove this friend?" }, class: "px-3 py-2 bg-rose-600/50 hover:bg-rose-600 text-white rounded-lg transition text-sm font-semibold" %>
+  </div>
+</div>

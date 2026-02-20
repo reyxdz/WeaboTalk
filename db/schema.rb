@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_18_031000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_20_000007) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -38,6 +38,70 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_031000) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.bigint "parent_comment_id"
+    t.bigint "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["created_at"], name: "index_comments_on_created_at"
+    t.index ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
+    t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "friend_id", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
+    t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["post_id"], name: "index_likes_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_likes_on_user_id_and_post_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "notifiable_id", null: false
+    t.string "notifiable_type", null: false
+    t.string "notification_type", null: false
+    t.datetime "read_at"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
+    t.index ["user_id", "created_at"], name: "index_notifications_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "post_images", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_post_images_on_post_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["created_at"], name: "index_posts_on_created_at"
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.text "bio"
     t.datetime "created_at", null: false
@@ -48,6 +112,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_031000) do
     t.string "username", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id"
     t.index ["username"], name: "index_profiles_on_username", unique: true
+  end
+
+  create_table "reactions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "post_id", null: false
+    t.string "reaction_type", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["post_id"], name: "index_reactions_on_post_id"
+    t.index ["user_id", "post_id", "reaction_type"], name: "index_reactions_on_user_id_and_post_id_and_reaction_type", unique: true
+    t.index ["user_id"], name: "index_reactions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -68,5 +143,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_031000) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "comments", column: "parent_comment_id"
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "likes", "posts"
+  add_foreign_key "likes", "users"
+  add_foreign_key "notifications", "users"
+  add_foreign_key "post_images", "posts"
+  add_foreign_key "posts", "users"
   add_foreign_key "profiles", "users"
+  add_foreign_key "reactions", "posts"
+  add_foreign_key "reactions", "users"
 end

@@ -1,0 +1,55 @@
+<div class="min-h-screen bg-slate-950 text-white">
+  <div class="container mx-auto px-4 py-8 max-w-3xl">
+    <!-- Back Button -->
+    <div class="mb-6">
+      <%= link_to "← Back to Feed", posts_path, class: "text-purple-400 hover:text-purple-300 transition font-semibold" %>
+    </div>
+
+    <!-- Post -->
+    <%= render "posts/post", post: @post %>
+
+    <!-- Comments Section -->
+    <div class="mt-12">
+      <h2 class="text-2xl font-bold text-slate-100 mb-6">Comments</h2>
+
+      <% if user_signed_in? %>
+        <!-- Add Comment Form -->
+        <div class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 mb-8" id="comment-form-<%= @post.id %>">
+          <h3 class="font-semibold text-slate-200 mb-4">Add a Comment</h3>
+          <%= form_with(model: [@post, @comment], local: true, class: "space-y-4") do |form| %>
+            <% if @comment.errors.any? %>
+              <div class="bg-rose-900/50 border border-rose-500/50 rounded-lg p-3">
+                <p class="text-sm text-rose-100"><%= pluralize(@comment.errors.count, "error") %> prevented your comment from being saved.</p>
+              </div>
+            <% end %>
+
+            <div>
+              <%= form.text_area :content, rows: 3, placeholder: "Share your thoughts...", class: "w-full bg-slate-700/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500" %>
+            </div>
+
+            <div class="flex gap-2">
+              <%= form.submit "Post Comment", class: "px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition font-semibold" %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 mb-8 text-center">
+          <p class="text-slate-300 mb-3"><%= link_to "Sign in", user_session_path, class: "text-purple-400 hover:text-purple-300" %> to comment</p>
+        </div>
+      <% end %>
+
+      <!-- Comments List -->
+      <div id="comments-<%= @post.id %>" class="space-y-4">
+        <% if @comments.any? %>
+          <% @comments.each do |comment| %>
+            <%= render "comments/comment", comment: comment, post: @post %>
+          <% end %>
+        <% else %>
+          <div class="text-center py-8 text-slate-400">
+            <p>No comments yet. Be the first to comment!</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

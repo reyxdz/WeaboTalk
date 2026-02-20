@@ -1,0 +1,7 @@
+<turbo-stream action="update" target="<%= dom_id(@post, :actions) %>">
+  <template>
+    <%= render "likes/like_button", post: @post %>
+    <%= render "reactions/reaction_button", post: @post %>
+    <%= link_to "💬 Comment", post_path(@post), class: "flex-1 py-2 text-center rounded-lg hover:bg-slate-700/50 text-slate-300 transition font-semibold text-sm" %>
+  </template>
+</turbo-stream>

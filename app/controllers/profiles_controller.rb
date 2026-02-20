@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
 class ProfilesController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
-  before_action :set_profile, only: [:show, :edit, :update]
-  before_action :authorize_user!, only: [:edit, :update]
+  before_action :authenticate_user!, except: [ :show ]
+  before_action :set_profile, only: [ :show, :edit, :update ]
+  before_action :authorize_user!, only: [ :edit, :update ]
 
   # GET /profiles/:username
   def show
     @user = @profile.user
     @is_own_profile = current_user&.profile == @profile
+    @posts = @user.posts.recent.includes(:user, :post_images, :comments, :likes, :reactions)
+    @posts_count = @user.posts.count
+    @friends_count = @user.friends.count
   end
 
   # GET /profiles/:username/edit

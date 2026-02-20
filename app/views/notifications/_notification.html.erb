@@ -1,0 +1,50 @@
+<% notifiable = notification.notifiable %>
+<div id="<%= dom_id(notification) %>" class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-lg p-4 flex items-start justify-between <%= 'bg-purple-900/30 border-purple-600/30' if notification.unread? %>">
+  <!-- Notification Content -->
+  <div class="flex-1">
+    <% case notification.notification_type %>
+      <% when 'comment_created' %>
+        <p class="text-slate-300">
+          <strong class="text-slate-100"><%= notifiable.user.profile&.username || notifiable.user.email %></strong> commented on your post:
+        </p>
+        <p class="text-sm text-slate-400 mt-1 truncate">"<%= truncate(notifiable.content, length: 100) %>"</p>
+        <%= link_to "View Post", post_path(notifiable.post), class: "text-purple-400 hover:text-purple-300 text-sm font-semibold mt-2 inline-block" %>
+
+      <% when 'like_created' %>
+        <p class="text-slate-300">
+          <strong class="text-slate-100"><%= notifiable.user.profile&.username || notifiable.user.email %></strong> liked your post
+        </p>
+        <%= link_to "View Post", post_path(notifiable.post), class: "text-purple-400 hover:text-purple-300 text-sm font-semibold mt-2 inline-block" %>
+
+      <% when 'reaction_created' %>
+        <p class="text-slate-300">
+          <strong class="text-slate-100"><%= notifiable.user.profile&.username || notifiable.user.email %></strong> reacted to your post with <%= notifiable.reaction_type %>
+        </p>
+        <%= link_to "View Post", post_path(notifiable.post), class: "text-purple-400 hover:text-purple-300 text-sm font-semibold mt-2 inline-block" %>
+
+      <% when 'friend_request_sent' %>
+        <p class="text-slate-300">
+          <strong class="text-slate-100"><%= notifiable.user.profile&.username || notifiable.user.email %></strong> sent you a friend request
+        </p>
+        <%= link_to "View Profile", profile_path(notifiable.user.profile&.username), class: "text-purple-400 hover:text-purple-300 text-sm font-semibold mt-2 inline-block" %>
+
+      <% when 'friend_request_accepted' %>
+        <p class="text-slate-300">
+          <strong class="text-slate-100"><%= notifiable.friend.profile&.username || notifiable.friend.email %></strong> accepted your friend request
+        </p>
+        <%= link_to "View Profile", profile_path(notifiable.friend.profile&.username), class: "text-purple-400 hover:text-purple-300 text-sm font-semibold mt-2 inline-block" %>
+    <% end %>
+
+    <p class="text-xs text-slate-500 mt-2">
+      <%= time_ago_in_words(notification.created_at) %> ago
+    </p>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex gap-2 ml-4">
+    <% unless notification.marked_as_read? %>
+      <%= button_to "✓", mark_notification_as_read_path(notification), method: :patch, local: true, class: "px-2 py-1 bg-green-600/50 hover:bg-green-600 text-green-100 rounded text-sm transition bg-transparent border-0 cursor-pointer" %>
+    <% end %>
+    <%= button_to "✕", notification_path(notification), method: :delete, local: true, class: "px-2 py-1 bg-rose-600/50 hover:bg-rose-600 text-rose-100 rounded text-sm transition bg-transparent border-0 cursor-pointer" %>
+  </div>
+</div>

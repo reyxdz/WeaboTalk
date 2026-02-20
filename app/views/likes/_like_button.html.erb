@@ -1,0 +1,10 @@
+<% user_liked = current_user && post.likes.exists?(user: current_user) %>
+<% if user_signed_in? %>
+  <% if user_liked %>
+    <%= button_to "❤️ Unlike", post_like_path(post, post.likes.find_by(user: current_user)), method: :delete, class: "flex-1 py-2 text-center rounded-lg hover:bg-rose-900/30 text-rose-400 transition font-semibold text-sm bg-transparent border-0 cursor-pointer" %>
+  <% else %>
+    <%= button_to "🤍 Like", post_likes_path(post), method: :post, class: "flex-1 py-2 text-center rounded-lg hover:bg-slate-700/50 text-slate-300 transition font-semibold text-sm bg-transparent border-0 cursor-pointer" %>
+  <% end %>
+<% else %>
+  <%= link_to "🤍 Like", user_session_path, class: "flex-1 py-2 text-center rounded-lg hover:bg-slate-700/50 text-slate-300 transition font-semibold text-sm" %>
+<% end %>
