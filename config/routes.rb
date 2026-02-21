@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   put "/profiles/:username", to: "profiles#update"
 
   # Users
-  get "users/search", to: "users#search", as: :search_users
+  match "users/search", to: "users#search", as: :search_users, via: [:get, :post]
   get "users/:id", to: "users#show", as: :user
 
   # Posts with nested comments, likes, and reactions

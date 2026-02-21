@@ -195,6 +195,8 @@ Here is your updated checklist with check marks added ✅
 * [✅] View user profile from search
 * **Estimation**: 2 story points
 * **Priority**: 🟠 High
+* **Estimation**: 2 story points
+* **Priority**: 🟠 High
 
 ---
 
@@ -213,7 +215,7 @@ Here is your updated checklist with check marks added ✅
 2. **US-3.7: Notification - Likes & Reactions**
    - [✅] Trigger notification on post like
    - [✅] Trigger notification on post reaction
-   - [ ] Group multiple likes into one notification
+   - [✅] Group multiple likes into one notification
    - **Estimation**: 1 story point
    - **Priority**: 🔴 Critical
 

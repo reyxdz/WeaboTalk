@@ -9,6 +9,11 @@
       <% end %>
     </div>
 
+    <!-- Search Box (visible when signed in) -->
+    <% if user_signed_in? %>
+      <%= render "users/search_box" %>
+    <% end %>
+
     <!-- Navigation Links & User Menu -->
     <div class="flex items-center space-x-4">
       <% if user_signed_in? %>

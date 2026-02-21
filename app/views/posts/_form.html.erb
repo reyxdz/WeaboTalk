@@ -1,4 +1,4 @@
-<div data-controller="post-form form-validation" data-validation-url="<%= validate_form_path %>">
+<div data-controller="post-form post-form-validation" data-validation-url="<%= validate_form_path %>">
   <% # Route based on post state: new/draft to save_draft, published to posts %>
   <% form_url = @post.new_record? || @post.draft? ? save_draft_post_path : posts_path %>
   
@@ -18,17 +18,25 @@
       </div>
     <% end %>
 
-    <!-- Title -->
+    <!-- Title with Real-Time Validation -->
     <div>
       <%= form.label :title, class: "block text-sm font-semibold text-slate-200 mb-2" %>
-      <%= form.text_field :title, class: "w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" %>
+      <%= form.text_field :title, 
+          "data-post-form-validation-target": "title",
+          placeholder: "Post title (3-200 characters)",
+          class: "w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition" %>
+      <!-- Feedback will be inserted here by controller -->
     </div>
 
-    <!-- Content -->
+    <!-- Content with Real-Time Validation -->
     <div>
       <%= form.label :content, class: "block text-sm font-semibold text-slate-200 mb-2" %>
-      <%= form.text_area :content, rows: 6, class: "w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" %>
-      <p class="text-xs text-slate-400 mt-2">Share your thoughts, reviews, or discussions about anime!</p>
+      <%= form.text_area :content, 
+          rows: 6,
+          "data-post-form-validation-target": "content",
+          placeholder: "Share your thoughts, reviews, or discussions about anime! (1-5000 characters)",
+          class: "w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition resize-none" %>
+      <!-- Feedback and character counter will be inserted here by controller -->
     </div>
 
     <!-- Images -->
@@ -46,12 +54,12 @@
     <div class="flex gap-3 pt-4">
       <% if @post.persisted? && @post.draft? %>
         <!-- Editing existing draft: Save or Publish -->
-        <%= form.submit "Save Changes", name: "action_type", value: "save", class: "px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition font-semibold" %>
-        <%= form.submit "Publish Post", name: "action_type", value: "publish", class: "px-6 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:shadow-lg hover:shadow-green-500/50 transition font-semibold" %>
+        <%= form.submit "Save Changes", name: "action_type", value: "save", "data-post-form-validation-target": "submitButton", class: "px-6 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg transition font-semibold" %>
+        <%= form.submit "Publish Post", name: "action_type", value: "publish", "data-post-form-validation-target": "submitButton", class: "px-6 py-2 bg-gradient-to-r from-green-600 to-emerald-600 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg hover:shadow-lg hover:shadow-green-500/50 transition font-semibold" %>
       <% elsif @post.new_record? %>
         <!-- Creating new post: Publish or Save as Draft -->
-        <%= form.submit "Publish Post", name: "action_type", value: "publish", class: "px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition font-semibold" %>
-        <%= form.submit "Save as Draft", name: "action_type", value: "save", class: "px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition font-semibold" %>
+        <%= form.submit "Publish Post", name: "action_type", value: "publish", "data-post-form-validation-target": "submitButton", class: "px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition font-semibold" %>
+        <%= form.submit "Save as Draft", name: "action_type", value: "save", "data-post-form-validation-target": "submitButton", class: "px-6 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg transition font-semibold" %>
       <% end %>
       <%= link_to "Cancel", @post.draft? ? drafts_posts_path : posts_path, class: "px-6 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg transition font-semibold" %>
     </div>
