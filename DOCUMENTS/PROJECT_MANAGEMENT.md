@@ -88,10 +88,10 @@ Here is your updated checklist with check marks added ✅
 
 ### 1. **US-2.1: Create Text Post**
 
-* [x] Post model with title and content fields
-* [x] Character limit validation
+* [✅] Post model with title and content fields
+* [✅] Character limit validation
 * [x] Draft saving functionality
-* [x] Post preview with Stimulus
+* [✅] Post preview with Stimulus
 * [x] Real-time form validation
 * **Estimation**: 2 story points
 * **Priority**: 🔴 Critical
@@ -100,11 +100,11 @@ Here is your updated checklist with check marks added ✅
 
 ### 2. **US-2.2: Image Upload & Post**
 
-* [x] Active Storage integration
-* [x] Multi-image upload
-* [x] Image validation (format, size)
+* [✅] Active Storage integration
+* [✅] Multi-image upload
+* [✅] Image validation (format, size)
 * [x] Drag-and-drop upload with Stimulus
-* [x] Image preview generation
+* [✅] Image preview generation
 * **Estimation**: 3 story points
 * **Priority**: 🔴 Critical
 
@@ -112,11 +112,11 @@ Here is your updated checklist with check marks added ✅
 
 ### 3. **US-2.3: Edit & Delete Posts**
 
-* [x] Edit post content
-* [x] Delete with confirmation
-* [x] Authorization (only author can edit/delete)
-* [x] Edit timeline tracking
-* [x] Real-time UI updates with Stimulus
+* [✅] Edit post content
+* [✅] Delete with confirmation
+* [✅] Authorization (only author can edit/delete)
+* [✅] Edit timeline tracking
+* [✅] Real-time UI updates with Stimulus
 * **Estimation**: 2 story points
 * **Priority**: 🟠 High
 
@@ -124,10 +124,10 @@ Here is your updated checklist with check marks added ✅
 
 ### 4. **US-2.4: Post Feed & Pagination**
 
-* [x] Display all posts chronologically
-* [x] Pagination implementation
-* [x] Infinite scroll with Stimulus
-* [x] Post detail view
+* [✅] Display all posts chronologically
+* [✅] Pagination implementation
+* [✅] Infinite scroll with Stimulus
+* [✅] Post detail view
 * **Estimation**: 2 story points
 * **Priority**: 🟠 High
 
@@ -139,11 +139,11 @@ Here is your updated checklist with check marks added ✅
 
 ### 1. **US-3.1: Like & React to Posts**
 
-* [x] Like model and associations
-* [x] Reaction types (emoji reactions)
-* [x] Toggle like functionality
-* [x] Real-time like count with Stimulus
-* [x] Like/reaction list view
+* [✅] Like model and associations
+* [✅] Reaction types (emoji reactions)
+* [✅] Toggle like functionality
+* [✅] Real-time like count with Stimulus
+* [✅] Like/reaction list view
 * **Estimation**: 2 story points
 * **Priority**: 🔴 Critical
 
@@ -151,11 +151,11 @@ Here is your updated checklist with check marks added ✅
 
 ### 2. **US-3.2: Comments & Discussion**
 
-* [x] Comment model with associations
-* [x] Create/read/delete comments
-* [x] Comment thread display
-* [x] Nested comment replies
-* [x] Real-time comment loading with Stimulus
+* [✅] Comment model with associations
+* [✅] Create/read/delete comments
+* [✅] Comment thread display
+* [✅] Nested comment replies
+* [✅] Real-time comment loading with Stimulus
 * **Estimation**: 3 story points
 * **Priority**: 🔴 Critical
 
@@ -163,12 +163,12 @@ Here is your updated checklist with check marks added ✅
 
 ### 3. **US-3.3: Real-time Notifications via Action Cable**
 
-* [x] Action Cable channel setup
-* [x] Notification model and associations
-* [x] WebSocket connection for notifications
-* [x] Notification bell with unread count
-* [x] Mark as read/dismiss functionality
-* [x] Real-time notification broadcasting
+* [✅] Action Cable channel setup
+* [✅] Notification model and associations
+* [✅] WebSocket connection for notifications
+* [✅] Notification bell with unread count
+* [✅] Mark as read/dismiss functionality
+* [✅] Real-time notification broadcasting
 * **Estimation**: 4 story points
 * **Priority**: 🔴 Critical
 
@@ -176,12 +176,12 @@ Here is your updated checklist with check marks added ✅
 
 ### 4. **US-3.4: Friend System**
 
-* [x] Friendship model with states (pending, accepted)
-* [x] Send friend request
-* [x] Accept/reject requests
-* [x] Unfriend functionality
-* [x] Friend list view
-* [x] Mutual friends display
+* [✅] Friendship model with states (pending, accepted)
+* [✅] Send friend request
+* [✅] Accept/reject requests
+* [✅] Unfriend functionality
+* [✅] Friend list view
+* [] Mutual friends display
 * **Estimation**: 3 story points
 * **Priority**: 🟠 High
 
@@ -189,10 +189,10 @@ Here is your updated checklist with check marks added ✅
 
 ### 5. **US-3.5: User Search**
 
-* [x] Search user by username
-* [x] Search results display
-* [x] Real-time search with Stimulus
-* [x] View user profile from search
+* [✅] Search user by username
+* [✅] Search results display
+* [✅] Real-time search with Stimulus
+* [✅] View user profile from search
 * **Estimation**: 2 story points
 * **Priority**: 🟠 High
 
@@ -204,23 +204,23 @@ Here is your updated checklist with check marks added ✅
 
 #### Member 3 Tasks (Dependent on Phase 4):
 1. **US-3.6: Notification - Comments**
-   - [ ] Trigger notification when someone comments on post
-   - [ ] Include post context in notification
-   - [ ] Notification link to post
+   - [✅] Trigger notification when someone comments on post
+   - [✅] Include post context in notification
+   - [✅] Notification link to post
    - **Estimation**: 1 story point
    - **Priority**: 🔴 Critical
 
 2. **US-3.7: Notification - Likes & Reactions**
-   - [ ] Trigger notification on post like
-   - [ ] Trigger notification on post reaction
+   - [✅] Trigger notification on post like
+   - [✅] Trigger notification on post reaction
    - [ ] Group multiple likes into one notification
    - **Estimation**: 1 story point
    - **Priority**: 🔴 Critical
 
 3. **US-3.8: Notification - Friend Requests**
-   - [ ] Trigger notification on friend request
-   - [ ] Accept/reject from notification
-   - [ ] Show requester info in notification
+   - [✅] Trigger notification on friend request
+   - [✅] Accept/reject from notification
+   - [✅] Show requester info in notification
    - **Estimation**: 1 story point
    - **Priority**: 🔴 Critical
 

@@ -1,5 +1,16 @@
 <% if user_signed_in? && current_user.id != user.id %>
   <% friendship = current_user.active_friendships.find_by(friend: user) %>
+  <% pending_request = current_user.passive_friendships.find_by(user: user, status: "pending") %>
+
+  <% wrapper_id = if friendship
+                    "friendship-button-#{friendship.id}"
+                  elsif pending_request
+                    "friendship-button-#{pending_request.id}"
+                  end %>
+
+  <% if wrapper_id %>
+    <div id="<%= wrapper_id %>">
+  <% end %>
 
   <% if friendship %>
     <% if friendship.accepted? %>
@@ -9,8 +20,6 @@
       <button class="px-4 py-2 bg-yellow-600 text-white rounded-lg font-semibold" disabled>⏳ Request Sent</button>
     <% end %>
   <% else %>
-    <% pending_request = current_user.passive_friendships.find_by(user: user, status: "pending") %>
-
     <% if pending_request %>
       <div class="flex gap-2">
         <%= button_to "Accept", friendship_path(pending_request), method: :patch, params: { friendship: { accepted: true } }, local: true, class: "px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold" %>
@@ -19,5 +28,9 @@
     <% else %>
       <%= button_to "Add Friend", friendships_path, params: { friend_id: user.id }, method: :post, local: true, class: "px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold" %>
     <% end %>
+  <% end %>
+
+  <% if wrapper_id %>
+    </div>
   <% end %>
 <% end %>

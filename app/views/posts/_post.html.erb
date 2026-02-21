@@ -3,25 +3,17 @@
   <div class="mb-4">
     <% if post.title.present? %>
       <h3 class="text-xl font-bold text-slate-100 mb-2">
-        <%= link_to post.title, post_path(post), class: "hover:text-purple-400 transition" %>
+       
       </h3>
     <% end %>
+    <%= link_to post_path(post) do%>
     <p class="text-slate-300 leading-relaxed whitespace-pre-wrap">
-      <%= link_to_user_mentions(post.content) %>
+      <%= post.content %>
     </p>
+    <% end %>
   </div>
 
-  <% if post.post_images.any? %>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-      <% post.post_images.each do |image| %>
-        <% if image.image.attached? %>
-          <div class="rounded-lg overflow-hidden">
-            <%= image_tag image.image, alt: "Post image", class: "w-full h-48 object-cover" %>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render "posts/images", images: post.post_images %>
 
   <!-- Post Stats -->
   <div class="flex gap-4 text-sm text-slate-400 mb-4 py-3 border-y border-slate-700/30">
@@ -31,9 +23,12 @@
   </div>
 
   <!-- Like, Reaction, Comment Buttons -->
-  <div id="<%= dom_id(post, :actions) %>" class="flex gap-2">
+  
+  <turbo-frame id="<%= dom_id(post, :actions) %>">
+    <div class="flex gap-2">
     <%= render "likes/like_button", post: post %>
     <%= render "reactions/reaction_button", post: post %>
     <%= link_to "💬 Comment", post_path(post), class: "flex-1 py-2 text-center rounded-lg hover:bg-slate-700/50 text-slate-300 transition font-semibold text-sm" %>
   </div>
+  </turbo-frame>
 </div>

@@ -14,7 +14,7 @@
       <% if user_signed_in? %>
         <!-- Quick Links -->
         <div class="flex items-center space-x-3">
-          <%= link_to "Feed", posts_path, class: "px-3 py-2 text-slate-300 hover:text-purple-400 transition font-semibold text-sm" %>
+          <%= link_to "Feed", home_path, class: "px-3 py-2 text-slate-300 hover:text-purple-400 transition font-semibold text-sm" %>
           <%= link_to pending_friend_requests_path, class: "px-3 py-2 text-slate-300 hover:text-purple-400 transition font-semibold text-sm relative" do %>
             Friends
             <% if current_user.passive_friendships.pending.any? %>
@@ -59,6 +59,7 @@
                 <%= link_to "View Profile", profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800/50 rounded transition" %>
                 <%= link_to "Edit Profile", edit_profile_path(current_user.profile.username), class: "block w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800/50 rounded transition" %>
                 <%= link_to "My Posts", posts_path, class: "block w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800/50 rounded transition" %>
+                <%= link_to "My Drafts", drafts_posts_path, class: "block w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800/50 rounded transition" %>
               <% else %>
                 <p class="block w-full text-left px-4 py-2 text-sm text-slate-500">Profile setup required</p>
               <% end %>

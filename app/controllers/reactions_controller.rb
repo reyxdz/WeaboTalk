@@ -17,7 +17,7 @@ class ReactionsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream { render :update_reactions }
-      format.html { redirect_to post_path(@post) }
+      format.html { redirect_to root }
       format.json { render json: { status: "success", reactions: @post.reactions.group_by(&:reaction_type).map { |k, v| { type: k, count: v.length } } } }
     end
   end
@@ -36,7 +36,7 @@ class ReactionsController < ApplicationController
 
   private
 
-  def set_post
+  def set_post  
     @post = Post.find(params[:post_id])
   end
 

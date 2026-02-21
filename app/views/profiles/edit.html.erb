@@ -16,7 +16,7 @@
       </div>
 
       <!-- Form -->
-      <%= form_with model: @profile, url: profile_path(@profile.username), local: true, method: :patch, class: "space-y-8" do |form| %>
+      <%= form_with model: @profile, url: profile_path(@profile.username), local: true, method: :patch, html: { data: { controller: "form-validation", validation_url: validate_form_path, validation_type: "profile" } }, class: "space-y-8" do |form| %>
         <!-- Error Messages -->
         <% if @profile.errors.any? %>
           <div class="bg-red-950/50 border-l-4 border-red-500 backdrop-blur p-5 rounded-r-lg">

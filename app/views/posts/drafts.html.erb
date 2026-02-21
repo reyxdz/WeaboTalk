@@ -1,0 +1,76 @@
+<div class="min-h-screen bg-slate-950 text-white">
+  <div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-2">
+        <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">My Drafts</span>
+      </h1>
+      <p class="text-slate-400">View and publish your draft posts</p>
+    </div>
+
+    <!-- Draft Posts -->
+    <div class="space-y-6">
+      <% if @drafts.any? %>
+        <% @drafts.each do |draft| %>
+          <div class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-xl p-6">
+            <!-- Draft Header -->
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <div class="flex items-center gap-3 mb-2">
+                  <h2 class="text-xl font-bold text-slate-100"><%= draft.title.presence || "Untitled Draft" %></h2>
+                  <span class="px-2 py-1 bg-yellow-600/50 text-yellow-100 text-xs font-semibold rounded">📝 Draft</span>
+                </div>
+                <p class="text-sm text-slate-400">
+                  Saved <%= time_ago_in_words(draft.updated_at) %> ago
+                </p>
+              </div>
+              <div class="flex gap-2">
+                <%= link_to "Edit", edit_post_path(draft), class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm" %>
+                <%= button_to "Delete", post_path(draft), method: :delete, data: { confirm: "Are you sure?" }, class: "px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-semibold text-sm" %>
+              </div>
+            </div>
+
+            <!-- Draft Preview -->
+            <% if draft.content.present? %>
+              <p class="text-slate-300 leading-relaxed mb-4">
+                <%= truncate(draft.content, length: 200, separator: ' ') %>
+              </p>
+            <% else %>
+              <p class="text-slate-400 italic mb-4">No content yet</p>
+            <% end %>
+
+            <!-- Images Preview -->
+            <% if draft.post_images.any? %>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                <% draft.post_images.each do |image| %>
+                  <% if image.image.attached? %>
+                    <div class="rounded-lg overflow-hidden">
+                      <%= image_tag image.image, alt: "Draft image", class: "w-full h-24 object-cover" %>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+
+            <!-- Publish Button -->
+            <div class="flex gap-2 pt-4 border-t border-slate-700/30">
+              <%= button_to "Publish Draft", publish_post_path(draft), method: :patch, class: "px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-semibold" %>
+              <%= link_to "Continue Editing", edit_post_path(draft), class: "px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-semibold" %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Pagination -->
+        <div class="mt-8">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% else %>
+        <div class="text-center py-16">
+          <div class="text-6xl mb-4">📝</div>
+          <h2 class="text-2xl font-semibold text-slate-300 mb-2">No drafts yet</h2>
+          <p class="text-slate-400 mb-6">Start creating by <%= link_to "composing a new post", new_post_path, class: "text-purple-400 hover:text-purple-300" %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

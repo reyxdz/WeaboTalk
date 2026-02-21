@@ -15,7 +15,7 @@
     </div>
 
     <!-- Form -->
-    <%= form_with model: resource, as: resource_name, local: true, url: user_password_path, method: :put, class: "space-y-4" do |form| %>
+    <%= form_with model: resource, as: resource_name, local: true, url: user_password_path, method: :put, html: { data: { controller: "form-validation", validation_url: validate_form_path, validation_type: "password_change" } }, class: "space-y-4" do |form| %>
       <!-- Hidden Token Field -->
       <%= form.hidden_field :reset_password_token, value: resource.reset_password_token %>
 

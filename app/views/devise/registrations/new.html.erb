@@ -8,7 +8,7 @@
     </div>
 
     <!-- Form -->
-    <%= form_with model: resource, as: resource_name, local: true, url: user_registration_path, class: "space-y-4" do |form| %>
+    <%= form_with model: resource, as: resource_name, local: true, url: user_registration_path, html: { data: { controller: "form-validation", validation_url: validate_form_path, validation_type: "registration" } }, class: "space-y-4" do |form| %>
       <!-- Error Messages -->
       <% if resource.errors.any? %>
         <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">

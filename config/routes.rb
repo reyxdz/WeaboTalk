@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  # Forms validation
+  post "forms/validate", to: "forms#validate", as: :validate_form
+
   # Pages
   get "home", to: "pages#home"
 
@@ -33,7 +36,12 @@ Rails.application.routes.draw do
     resources :comments, only: [ :create, :destroy ]
     resources :likes, only: [ :create, :destroy ]
     resources :reactions, only: [ :create, :destroy ]
+    member do
+      patch :publish
+    end
   end
+  post "posts/save-draft", to: "posts#save_draft", as: :save_draft_post
+  get "my-drafts", to: "posts#drafts", as: :drafts_posts
 
   # Friendships
   resources :friendships, only: [ :create, :destroy, :update, :index ]

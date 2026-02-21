@@ -1,4 +1,4 @@
-<turbo-stream action="update" target="<%= dom_id(@post, :actions) %>">
+ <turbo-stream action="update" target="<%= dom_id(@post, :actions) %>">
   <template>
     <%= render "likes/like_button", post: @post %>
     <%= render "reactions/reaction_button", post: @post %>

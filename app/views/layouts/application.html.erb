@@ -22,6 +22,10 @@
     <%# Includes all stylesheet files (from builds and stylesheets) %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+
+    <% if Rails.env.development? %>
+      <%= stylesheet_link_tag "dev_no_animation", "data-turbo-track": "reload" %>
+    <% end %>
   </head>
 
   <body class="bg-slate-950">

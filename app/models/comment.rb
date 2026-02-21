@@ -14,24 +14,16 @@ class Comment < ApplicationRecord
   scope :root_comments, -> { where(parent_comment_id: nil) }
   scope :recent, -> { order(created_at: :desc) }
 
-  after_create :notify_post_author
+  after_create :enqueue_notify_post_author
   after_destroy :cleanup_notifications
 
   private
 
-  def notify_post_author
-    return if user == post.user
-
-    Notification.create!(
-      user: post.user,
-      notification_type: "comment_created",
-      notifiable: self
-    )
-
-    NotificationsChannel.broadcast_to(
-      post.user,
-      { type: "comment", post_id: post.id, user_id: user.id }
-    )
+  # Enqueue a background job to notify the post author about this comment.
+  # Keeping the model callback, but delegating side-effects to a job/service
+  # improves testability and separates concerns.
+  def enqueue_notify_post_author
+    CommentNotificationJob.perform_later(id)
   end
 
   def cleanup_notifications

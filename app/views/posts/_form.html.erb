@@ -1,5 +1,12 @@
-<div data-controller="post-form">
-  <%= form_with(model: @post, local: true, html: { multipart: true, id: "post-form" }, class: "space-y-6") do |form| %>
+<div data-controller="post-form form-validation" data-validation-url="<%= validate_form_path %>">
+  <% # Route based on post state: new/draft to save_draft, published to posts %>
+  <% form_url = @post.new_record? || @post.draft? ? save_draft_post_path : posts_path %>
+  
+  <%= form_with(model: @post, url: form_url, method: :post, local: true, html: { multipart: true, id: "post-form", data: { validation_type: "post" } }, class: "space-y-6") do |form| %>
+    <% # Include post ID for draft updates %>
+    <% if @post.persisted? %>
+      <%= hidden_field_tag :id, @post.id %>
+    <% end %>
     <% if @post.errors.any? %>
       <div class="bg-rose-900/50 border border-rose-500/50 rounded-lg p-4">
         <h2 class="text-sm font-semibold text-rose-200 mb-2"><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
@@ -35,10 +42,18 @@
       <button id="add-image-btn" type="button" class="mt-4 px-4 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg text-sm font-semibold transition" data-action="click->post-form#addImage">+ Add Image</button>
     </div>
 
-    <!-- Submit Button -->
+    <!-- Submit Buttons -->
     <div class="flex gap-3 pt-4">
-      <%= form.submit class: "px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition font-semibold" %>
-      <%= link_to "Cancel", posts_path, class: "px-6 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg transition font-semibold" %>
+      <% if @post.persisted? && @post.draft? %>
+        <!-- Editing existing draft: Save or Publish -->
+        <%= form.submit "Save Changes", name: "action_type", value: "save", class: "px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition font-semibold" %>
+        <%= form.submit "Publish Post", name: "action_type", value: "publish", class: "px-6 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:shadow-lg hover:shadow-green-500/50 transition font-semibold" %>
+      <% elsif @post.new_record? %>
+        <!-- Creating new post: Publish or Save as Draft -->
+        <%= form.submit "Publish Post", name: "action_type", value: "publish", class: "px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition font-semibold" %>
+        <%= form.submit "Save as Draft", name: "action_type", value: "save", class: "px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition font-semibold" %>
+      <% end %>
+      <%= link_to "Cancel", @post.draft? ? drafts_posts_path : posts_path, class: "px-6 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg transition font-semibold" %>
     </div>
   <% end %>
 </div>
@@ -79,6 +94,35 @@
       })
     }
 
+    // Save draft handler
+    function saveDraft(event) {
+      event.preventDefault()
+      const form = document.getElementById('post-form')
+      const formData = new FormData(form)
+      
+      fetch('<%= save_draft_post_path %>', {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+          'Accept': 'application/json'
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert('Draft saved successfully!')
+          window.location.href = '<%= drafts_posts_path %>'
+        } else {
+          alert('Error saving draft: ' + data.errors.join(', '))
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error)
+        alert('Error saving draft. Please try again.')
+      })
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
       const addBtn = document.getElementById('add-image-btn')
       if (addBtn) addBtn.addEventListener('click', addImageField)
@@ -87,6 +131,12 @@
       const form = document.getElementById('post-form')
       if (form) {
         form.addEventListener('submit', cleanupEmptyImages)
+      }
+
+      // Save draft button handler
+      const saveDraftBtn = document.getElementById('save-draft-btn')
+      if (saveDraftBtn) {
+        saveDraftBtn.addEventListener('click', saveDraft)
       }
     })
   })()
