@@ -8,7 +8,7 @@ gem "propshaft"
 gem "pg", "~> 1.1"
 
 # Use precompiled psych to avoid compilation issues on Windows
-gem "psych", ">= 4.0.0", "< 5.0.0"
+gem "psych", ">= 4.0.0", "< 6.0.0"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
