@@ -37,8 +37,8 @@ Rails.application.configure do
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true
-  # Set localhost to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000, protocol: "http" }
+  # Set host to be used by links generated in mailer templates.
+  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "localhost"), port: 3000, protocol: "http" }
 
   # Gmail SMTP configuration for sending real emails
   config.action_mailer.delivery_method = :smtp
