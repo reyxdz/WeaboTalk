@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  skip_authentication_requirement! only: :search
-
   # GET/POST /users/search
   # Supports both HTML (form submission) and JSON (real-time search)
   def search
