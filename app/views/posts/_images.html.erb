@@ -3,9 +3,9 @@
     <!-- Single Image: Large, Responsive Display -->
     <div class="mb-4 rounded-lg overflow-hidden">
       <% if images.first.image.attached? %>
-        <%= image_tag images.first.image, 
-            alt: "Post image", 
-            class: "w-full h-auto max-h-96 object-cover" %>
+        <img src="<%= url_for(images.first.image) %>" 
+             alt="Post image" 
+             class="w-full h-auto max-h-96 object-cover" />
       <% end %>
     </div>
   <% else %>
@@ -15,9 +15,9 @@
       <% images.each do |image| %>
         <% if image.image.attached? %>
           <div class="rounded-lg overflow-hidden aspect-square">
-            <%= image_tag image.image, 
-                alt: "Post image", 
-                class: "w-full h-full object-cover hover:scale-105 transition" %>
+            <img src="<%= url_for(image.image) %>" 
+                 alt="Post image" 
+                 class="w-full h-full object-cover hover:scale-105 transition" />
           </div>
         <% end %>
       <% end %>
