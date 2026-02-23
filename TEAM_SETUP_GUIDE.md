@@ -520,6 +520,8 @@ ssh-keygen -t ed25519 -C "your.email@gmail.com"
 # Then add the key to GitHub: https://github.com/settings/keys
 
 # 2. Clone the repository
+
+# 2. Clone the repository
 git clone git@github.com:reyxdz/WeaboTalk.git
 cd WeaboTalk
 
@@ -535,6 +537,7 @@ rails db:seed  # Optional
 
 # ✅ You're ready!
 ```
+ssh-keygen -t ed25519 -C "your.email@gmail.com"
 
 ### **Every Time You Code (Start of Session)**
 
