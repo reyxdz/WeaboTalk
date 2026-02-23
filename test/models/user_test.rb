@@ -100,9 +100,9 @@ class UserTest < ActiveSupport::TestCase
       password: "password123",
       password_confirmation: "password123"
     )
-    
+
     # This should enqueue the email
-    assert_difference 'ActionMailer::Base.deliveries.size', 1 do
+    assert_difference "ActionMailer::Base.deliveries.size", 1 do
       user.send_devise_notification(:confirmation_instructions)
     end
   end

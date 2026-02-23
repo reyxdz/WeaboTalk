@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   # Supports both HTML (form submission) and JSON (real-time search)
   def search
     @query = params[:q].to_s.strip
-    
+
     # Use SearchService for consistent search logic
     service = Users::SearchService.new(@query)
     @users = service.search

@@ -1,4 +1,4 @@
-<div id="post-<%= post.id %>" class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 mb-6 shadow-lg hover:shadow-xl transition">
+<div id="<%= dom_id(post) %>" class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 mb-6 shadow-lg hover:shadow-xl transition">
   <%= render Posts::HeaderComponent.new(post: post, current_user: current_user) %>
   <div class="mb-4">
     <% if post.title.present? %>
@@ -14,8 +14,9 @@
   </div>
 
   <%= render "posts/images", images: post.post_images %>
-<turbo-frame id="<%= dom_id(post, :like) %>"> 
+
   <!-- Post Stats -->
+   <turbo-frame id="<%= dom_id(post, :actions) %>"> 
   <div class="flex gap-4 text-sm text-slate-400 mb-4 py-3 border-y border-slate-700/30">
     <span><strong class="text-slate-200"><%= post.likes.count %></strong> likes</span>
     <span><strong class="text-slate-200"><%= post.reactions.count %></strong> reactions</span>
@@ -24,11 +25,17 @@
 
   <!-- Like, Reaction, Comment Buttons -->
   
-  
+ 
     <div class="flex gap-2">
+      <turbo-frame id="<%= dom_id(post, :like) %>">
     <%= render "likes/like_button", post: post %>
-    <%# <%= render "reactions/reaction_button", post: post %> 
-    <%# <%= link_to "💬 Comment", post_path(post), class: "flex-1 py-2 text-center rounded-lg hover:bg-slate-700/50 text-slate-300 transition font-semibold text-sm" %> 
+      </turbo-frame>
+      <turbo-frame id="<%= dom_id(post, :reaction) %>">
+    <%= render "reactions/reaction_button", post: post %> 
+      </turbo-frame>
+     
+    <%= link_to "💬 Comment", post_path(post), class: "flex-1 py-2 text-center rounded-lg hover:bg-slate-700/50 text-slate-300 transition font-semibold text-sm" %> 
+      
     </div>
   </turbo-frame>
 

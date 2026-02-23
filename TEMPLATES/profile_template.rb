@@ -26,7 +26,7 @@ class Profile < ApplicationRecord
   validates :user_id, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
   validates :username, length: { minimum: 3, maximum: 30 }
-  
+
   # TODO: Add validations for avatar and banner size
   # TODO: Add image processing for profile pictures
 end

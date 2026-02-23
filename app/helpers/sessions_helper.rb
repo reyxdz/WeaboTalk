@@ -9,7 +9,7 @@ module SessionsHelper
   # Get the current user's display name
   def current_user_display_name
     return unless user_signed_in?
-    current_user.email.split('@').first.capitalize
+    current_user.email.split("@").first.capitalize
   end
 
   # Check if user has confirmed email

@@ -26,7 +26,7 @@ class Reaction < ApplicationRecord
   validates :user_id, presence: true
   validates :post_id, presence: true
   validates :reaction_type, presence: true, inclusion: { in: ALLOWED_REACTIONS }
-  validates :user_id, uniqueness: { scope: [:post_id, :reaction_type], 
+  validates :user_id, uniqueness: { scope: [ :post_id, :reaction_type ],
                                     message: "can use this reaction on post only once" }
 
   after_create :notify_post_author

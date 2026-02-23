@@ -55,4 +55,3 @@ class FormsController < ApplicationController
     end
   end
 end
-

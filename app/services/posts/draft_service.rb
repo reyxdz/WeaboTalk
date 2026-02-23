@@ -12,10 +12,10 @@ module Posts
     # Returns [success: bool, post: Post, errors: array]
     def save_draft(draft_params)
       draft_id = draft_params.delete(:id)
-      
+
       post = if draft_id.present?
                @user.posts.draft.find_by(id: draft_id)
-             end
+      end
 
       post ||= @user.posts.build
 
@@ -25,15 +25,15 @@ module Posts
         { success: false, post: post, errors: post.errors.full_messages }
       end
     rescue ActiveRecord::RecordNotFound
-      { success: false, post: nil, errors: ["Draft not found"] }
+      { success: false, post: nil, errors: [ "Draft not found" ] }
     end
 
     # Publish a draft (change status from draft to published).
     # Returns [success: bool, post: Post, errors: array]
     def publish_draft(draft_id)
       post = @user.posts.draft.find_by(id: draft_id)
-      
-      return { success: false, post: nil, errors: ["Draft not found"] } unless post
+
+      return { success: false, post: nil, errors: [ "Draft not found" ] } unless post
 
       if post.update(status: :published)
         { success: true, post: post, errors: [] }
@@ -41,7 +41,7 @@ module Posts
         { success: false, post: post, errors: post.errors.full_messages }
       end
     rescue ActiveRecord::RecordNotFound
-      { success: false, post: nil, errors: ["Draft not found"] }
+      { success: false, post: nil, errors: [ "Draft not found" ] }
     end
 
     # Fetch all drafts for the user.
@@ -52,13 +52,13 @@ module Posts
     # Delete a draft.
     def delete_draft(draft_id)
       post = @user.posts.draft.find_by(id: draft_id)
-      
-      return { success: false, errors: ["Draft not found"] } unless post
+
+      return { success: false, errors: [ "Draft not found" ] } unless post
 
       post.destroy
       { success: true, errors: [] }
     rescue ActiveRecord::RecordNotFound
-      { success: false, errors: ["Draft not found"] }
+      { success: false, errors: [ "Draft not found" ] }
     end
   end
 end

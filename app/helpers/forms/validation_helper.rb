@@ -8,7 +8,7 @@ module Forms
       label_text = options.delete(:label)
       placeholder = options.delete(:placeholder)
       css_class = options.delete(:css_class) || "w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
-      
+
       content_tag(:div, class: "space-y-2") do
         if label_text
           form.label field_name, label_text, class: "block text-sm font-semibold text-slate-200"
@@ -28,7 +28,7 @@ module Forms
       placeholder = options.delete(:placeholder)
       rows = options.delete(:rows) || 5
       css_class = options.delete(:css_class) || "w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
-      
+
       content_tag(:div, class: "space-y-2") do
         if label_text
           form.label field_name, label_text, class: "block text-sm font-semibold text-slate-200"
@@ -53,7 +53,7 @@ module Forms
       label_text = options.delete(:label) || "Password"
       placeholder = options.delete(:placeholder) || "At least 8 characters, with letters, numbers, and symbols"
       css_class = options.delete(:css_class) || "w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
-      
+
       content_tag(:div, class: "space-y-2") do
         form.label field_name, label_text, class: "block text-sm font-semibold text-slate-200" +
         form.password_field(field_name, options.merge(

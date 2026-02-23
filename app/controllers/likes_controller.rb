@@ -4,30 +4,28 @@ class LikesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post
 
-  # POST /posts/:post_id/likes
-  def create
-    @like = @post.likes.find_or_create_by(user: current_user)
+# POST /posts/:post_id/likes
+def create
+  @post = Post.find(params[:post_id])
+  @like = @post.likes.create(user: current_user)
 
-    respond_to do |format|
-      format.turbo_stream 
-      format.html { redirect_back fallback_location: root_path }
-      # format.html { redirect_to post_path(@post), notice: "Post liked!" }
-      format.json { render json: { status: "success", likes_count: @post.likes.count } }
-    end
+  respond_to do |format|
+    format.turbo_stream
+    format.html { redirect_to @post }
   end
+end
+# DELETE /posts/:post_id/likes/:id
 
-  # DELETE /posts/:post_id/likes/:id
-  def destroy
-    @like = @post.likes.find_by(user: current_user)
-    @like&.destroy
+def destroy
+  @post = Post.find(params[:post_id])
+  @like = @post.likes.find_by(user: current_user)
+  @like.destroy if @like
 
-    respond_to do |format|
-      format.turbo_stream #{ render :update_likes }
-      format.html { redirect_back fallback_location: root_path }
-      # format.html { redirect_to post_path(@post), notice: "Post unliked!" }
-      format.json { render json: { status: "success", likes_count: @post.likes.count } }
-    end
+  respond_to do |format|
+    format.turbo_stream
+    format.html { redirect_to @post }
   end
+end
 
   private
 

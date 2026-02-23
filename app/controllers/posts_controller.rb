@@ -30,10 +30,10 @@ class PostsController < ApplicationController
     # Handle both namespaced and non-namespaced params
     post_params = if params[:post]
                     params.require(:post).permit(:title, :content, :id, post_images_attributes: [ :id, :image, :_destroy ])
-                  else
+    else
                     params.permit(:title, :content, :id, post_images_attributes: [ :id, :image, :_destroy ])
-                  end
-    
+    end
+
     action_type = params[:action_type] # 'save' or 'publish'
     draft_service = Posts::DraftService.new(current_user)
 
@@ -106,7 +106,7 @@ class PostsController < ApplicationController
   # GET /posts/:id/edit
   def edit
     # Only drafts can be edited
-    redirect_to drafts_posts_path, alert: "Cannot edit published posts." unless @post.draft?
+    # redirect_to drafts_posts_path, alert: "Cannot edit published posts." unless @post.draft?
   end
 
   # POST /posts
@@ -124,15 +124,22 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/:id
   # Not used in clean architecture
   def update
-    redirect_to home_path, alert: "Invalid action."
+    # redirect_to home_path, alert: "Invalid action."
+    if @post.update(post_params)
+      redirect_to post_path(@post), notice: "Post was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
-  # DELETE /posts/:id
-  def destroy
-    @post.destroy
-    redirect_to posts_url, notice: "Post was successfully deleted."
+# DELETE /posts/:id
+def destroy
+  @post.destroy
+  respond_to do |format|
+    format.turbo_stream # removes via Turbo
+    format.html { redirect_to posts_url, notice: "Post was successfully deleted." } # fallback
   end
-
+end
   private
 
   def set_post

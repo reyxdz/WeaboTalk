@@ -25,7 +25,7 @@
 
       <div class="absolute right-0 mt-2 w-48 bg-slate-900/95 backdrop-blur-md border border-slate-700/50 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-10">
         <%= link_to "Edit Post", edit_post_path(post), class: "block w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800/50 transition" %>
-        <%= button_to "Delete Post", post_path(post), method: :delete, local: true, data: { confirm: "Are you sure?" }, class: "block w-full text-left px-4 py-2 text-sm text-rose-400 hover:bg-rose-900/30 transition bg-transparent border-0" %>
+        <%= button_to "Delete Post", post_path(post), method: :delete, local: true, data: { turbo_confirm: "Are you sure?", turbo_stream: true  }, class: "block w-full text-left px-4 py-2 text-sm text-rose-400 hover:bg-rose-900/30 transition bg-transparent border-0" %>
       </div>
     </div>
   <% end %>

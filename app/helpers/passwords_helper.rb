@@ -25,13 +25,13 @@ module PasswordsHelper
   # Password strength indicator
   def password_strength(password)
     return :weak if password.blank? || password.length < 8
-    
+
     has_numbers = password.match?(/\d/)
     has_symbols = password.match?(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)
     has_uppercase = password.match?(/[A-Z]/)
-    
-    strength_count = [has_numbers, has_symbols, has_uppercase].count(true)
-    
+
+    strength_count = [ has_numbers, has_symbols, has_uppercase ].count(true)
+
     case strength_count
     when 0, 1
       :weak

@@ -35,7 +35,7 @@ module Users
     # Search both username and bio for keyword matching (basic keyword search)
     def search_by_keyword
       search_term = "%#{@query}%"
-      
+
       Profile
         .where("username ILIKE ? OR bio ILIKE ?", search_term, search_term)
         .includes(:user)
