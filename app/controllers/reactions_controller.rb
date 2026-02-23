@@ -1,10 +1,10 @@
-# frozen_string_literal: true
+  # frozen_string_literal: true
 
 class ReactionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post
 
-  # POST /posts/:post_id/reactions
+  # POST /posts/:post_id/reactions 
   def create
     existing = @post.reactions.find_by(user: current_user, reaction_type: reaction_params[:reaction_type])
 

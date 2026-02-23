@@ -5,8 +5,8 @@ class Like < ApplicationRecord
   belongs_to :post
   has_many :notifications, as: :notifiable, dependent: :destroy
 
-  validates :user_id, presence: true
-  validates :post_id, presence: true
+  # validates :user_id, presence: true
+  # validates :post_id, presence: true
   validates :user_id, uniqueness: { scope: :post_id, message: "can like a post only once" }
 
   after_create :notify_post_author

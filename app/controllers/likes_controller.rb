@@ -9,8 +9,9 @@ class LikesController < ApplicationController
     @like = @post.likes.find_or_create_by(user: current_user)
 
     respond_to do |format|
-      format.turbo_stream { render :update_likes }
-      format.html { redirect_to post_path(@post), notice: "Post liked!" }
+      format.turbo_stream 
+      format.html { redirect_back fallback_location: root_path }
+      # format.html { redirect_to post_path(@post), notice: "Post liked!" }
       format.json { render json: { status: "success", likes_count: @post.likes.count } }
     end
   end
@@ -21,8 +22,9 @@ class LikesController < ApplicationController
     @like&.destroy
 
     respond_to do |format|
-      format.turbo_stream { render :update_likes }
-      format.html { redirect_to post_path(@post), notice: "Post unliked!" }
+      format.turbo_stream #{ render :update_likes }
+      format.html { redirect_back fallback_location: root_path }
+      # format.html { redirect_to post_path(@post), notice: "Post unliked!" }
       format.json { render json: { status: "success", likes_count: @post.likes.count } }
     end
   end

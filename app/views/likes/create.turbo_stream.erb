@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@post, :like) do %>
+  <%= render "likes/like_button", post: @post %>
+<% end %>
