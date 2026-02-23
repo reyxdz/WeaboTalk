@@ -63,7 +63,7 @@ module ProfilesHelper
 
   # Get user display name (from profile or email)
   def user_display_name(user)
-    user.profile&.username || user.email.split('@').first
+    user.profile&.username || user.email.split("@").first
   end
 
   # Get user profile link

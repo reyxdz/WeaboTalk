@@ -1,0 +1,7 @@
+<% @posts.each do |post| %>
+  <turbo-stream action="append" target="posts-feed">
+    <template>
+      <%= render "posts/post", post: post %>
+    </template>
+  </turbo-stream>
+<% end %>

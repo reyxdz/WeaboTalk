@@ -1,263 +1,65 @@
 <div class="min-h-screen bg-slate-950 text-white">
   <!-- Animated Particles Background -->
-  <div class="fixed inset-0 opacity-20 pointer-events-none z-0">
+  <%# <div class="fixed inset-0 opacity-20 pointer-events-none z-0">
     <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
     <div class="absolute -bottom-8 right-1/3 w-96 h-96 bg-pink-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
     <div class="absolute top-1/2 right-1/4 w-96 h-96 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation-delay: 4s;"></div>
-  </div>
+  </div> %>
 
   <div class="relative z-10">
+    <!-- Flash Messages -->
+    <% if notice.present? %>
+      <div class="fixed top-20 left-1/2 -translate-x-1/2 w-96 bg-emerald-900/80 border border-emerald-500/50 p-4 rounded-lg shadow-xl backdrop-blur-md z-50">
+        <div class="flex items-start">
+          <svg class="w-6 h-6 text-emerald-400 mt-0.5 mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-emerald-100 font-semibold text-sm"><%= notice %></p>
+        </div>
+      </div>
+    <% end %>
+    <% if alert.present? %>
+      <div class="fixed top-20 left-1/2 -translate-x-1/2 w-96 bg-rose-900/80 border border-rose-500/50 p-4 rounded-lg shadow-xl backdrop-blur-md z-50">
+        <div class="flex items-start">
+          <svg class="w-6 h-6 text-rose-400 mt-0.5 mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-rose-100 font-semibold text-sm"><%= alert %></p>
+        </div>
+      </div>
+    <% end %>
+
     <% if user_signed_in? %>
       <!-- Authenticated User Feed -->
       
       <!-- Main Feed Container -->
       <div class="container mx-auto px-4 py-8 max-w-3xl">
-        <!-- Create Post Box (Placeholder) -->
+        <!-- Create Post Box -->
         <div class="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-xl p-6 mb-8 shadow-lg">
           <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-linear-to-br from-purple-500 to-pink-500 shrink-0"></div>
-            <input 
-              type="text" 
-              placeholder="What's on your mind? (Coming soon...)" 
-              class="flex-1 bg-slate-700/50 border border-slate-600/50 rounded-full px-4 py-3 text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled opacity-50" 
-              disabled
-            />
+            <%= render Profiles::ImageComponent.new(user: current_user, size: "md") %>
+            <%= link_to "What's on your mind? Share your thoughts...", new_post_path, class: "flex-1 bg-slate-700/50 border border-slate-600/50 rounded-full px-4 py-3 text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 block hover:bg-slate-700 transition" %>
           </div>
         </div>
 
-        <!-- Posts Feed -->
-        <!-- Post 1 -->
-        <div class="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden shadow-lg mb-6 hover:shadow-purple-500/10 transition">
-          <!-- Post Header -->
-          <div class="p-6 pb-4">
-            <div class="flex items-start justify-between mb-4">
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 shrink-0"></div>
-                <div>
-                  <p class="font-bold text-white">AkatsukiWatcher</p>
-                  <p class="text-xs text-slate-400">2 hours ago</p>
-                </div>
-              </div>
-              <button class="text-slate-400 hover:text-slate-300 transition">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.5 1.5H9.5V9.5H1.5V10.5H9.5V18.5H10.5V10.5H18.5V9.5H10.5V1.5Z"/>
-                </svg>
-              </button>
+        <!-- Posts Feed Container -->
+        <div id="posts-feed">
+          <% if @posts&.any? %>
+            <% @posts.each do |post| %>
+              <%= render "posts/post", post: post %>
+            <% end %>
+          <% else %>
+            <div class="text-center py-12 bg-slate-800/30 border border-slate-700/30 rounded-xl">
+              <div class="text-6xl mb-4">📝</div>
+              <h2 class="text-xl font-semibold text-slate-300">No posts yet</h2>
+              <p class="text-slate-400 mt-2">Follow friends and share your thoughts to see posts here!</p>
+              <%= link_to "Be the first to post", new_post_path, class: "inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold" %>
             </div>
-            <p class="text-slate-200 mb-4">Just finished the latest Jujutsu Kaisen episode! The animation quality was absolutely mind-blowing. MAPPA really is setting the bar higher with each episode. 🔥</p>
-          </div>
-
-          <!-- Post Image Placeholder -->
-          <div class="bg-linear-to-b from-blue-600/20 to-cyan-600/20 h-64 flex items-center justify-center border-t border-b border-slate-700/50">
-            <div class="text-center">
-              <svg class="w-16 h-16 text-blue-400/50 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <p class="text-slate-500 text-sm">Latest Episode Image</p>
-            </div>
-          </div>
-
-          <!-- Post Stats & Actions -->
-          <div class="p-6 pt-4">
-            <div class="flex items-center justify-between text-xs text-slate-400 mb-4 pb-4 border-b border-slate-700/50">
-              <div class="flex gap-4">
-                <span>&#10084; 142 likes</span>
-                <span>&#128172; 28 comments</span>
-              </div>
-              <span>&#8599; 12 shares</span>
-            </div>
-            <div class="flex items-center justify-around text-slate-400 text-sm">
-              <button class="flex items-center gap-2 hover:text-pink-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                Like
-              </button>
-              <button class="flex items-center gap-2 hover:text-blue-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                </svg>
-                Comment
-              </button>
-              <button class="flex items-center gap-2 hover:text-purple-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Share
-              </button>
-            </div>
-          </div>
+          <% end %>
         </div>
 
-        <!-- Post 2 -->
-        <div class="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden shadow-lg mb-6 hover:shadow-pink-500/10 transition">
-          <!-- Post Header -->
-          <div class="p-6 pb-4">
-            <div class="flex items-start justify-between mb-4">
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full bg-linear-to-br from-pink-500 to-rose-500 shrink-0"></div>
-                <div>
-                  <p class="font-bold text-white">MangaReader</p>
-                  <p class="text-xs text-slate-400">4 hours ago</p>
-                </div>
-              </div>
-              <button class="text-slate-400 hover:text-slate-300 transition">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.5 1.5H9.5V9.5H1.5V10.5H9.5V18.5H10.5V10.5H18.5V9.5H10.5V1.5Z"/>
-                </svg>
-              </button>
-            </div>
-            <p class="text-slate-200 mb-4">Does anyone else think the Attack on Titan ending was perfect? The way they concluded Eren's character arc was so emotionally impactful. Let me know your thoughts! 💭</p>
-          </div>
-
-          <!-- Post Stats & Actions -->
-          <div class="p-6 pt-4">
-            <div class="flex items-center justify-between text-xs text-slate-400 mb-4 pb-4 border-b border-slate-700/50">
-              <div class="flex gap-4">
-                <span>&#10084; 287 likes</span>
-                <span>&#128172; 65 comments</span>
-              </div>
-              <span>&#8599; 34 shares</span>
-            </div>
-            <div class="flex items-center justify-around text-slate-400 text-sm">
-              <button class="flex items-center gap-2 hover:text-pink-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                Like
-              </button>
-              <button class="flex items-center gap-2 hover:text-blue-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                </svg>
-                Comment
-              </button>
-              <button class="flex items-center gap-2 hover:text-purple-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Share
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Post 3 -->
-        <div class="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden shadow-lg mb-6 hover:shadow-amber-500/10 transition">
-          <!-- Post Header -->
-          <div class="p-6 pb-4">
-            <div class="flex items-start justify-between mb-4">
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full bg-linear-to-br from-amber-500 to-orange-500 shrink-0"></div>
-                <div>
-                  <p class="font-bold text-white">CasualWeeb</p>
-                  <p class="text-xs text-slate-400">6 hours ago</p>
-                </div>
-              </div>
-              <button class="text-slate-400 hover:text-slate-300 transition">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.5 1.5H9.5V9.5H1.5V10.5H9.5V18.5H10.5V10.5H18.5V9.5H10.5V1.5Z"/>
-                </svg>
-              </button>
-            </div>
-            <p class="text-slate-200 mb-4">Currently binge-watching My Hero Academia for the first time and I'm HOOKED! Why didn't anyone tell me this anime was so good?? 🔥 Already on Season 3!</p>
-          </div>
-
-          <!-- Post Image Placeholder -->
-          <div class="bg-linear-to-b from-amber-600/20 to-orange-600/20 h-48 flex items-center justify-center border-t border-b border-slate-700/50">
-            <div class="text-center">
-              <svg class="w-16 h-16 text-amber-400/50 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <p class="text-slate-500 text-sm">MHA Anime Screenshot</p>
-            </div>
-          </div>
-
-          <!-- Post Stats & Actions -->
-          <div class="p-6 pt-4">
-            <div class="flex items-center justify-between text-xs text-slate-400 mb-4 pb-4 border-b border-slate-700/50">
-              <div class="flex gap-4">
-                <span>&#10084; 156 likes</span>
-                <span>&#128172; 42 comments</span>
-              </div>
-              <span>&#8599; 18 shares</span>
-            </div>
-            <div class="flex items-center justify-around text-slate-400 text-sm">
-              <button class="flex items-center gap-2 hover:text-pink-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                Like
-              </button>
-              <button class="flex items-center gap-2 hover:text-blue-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                </svg>
-                Comment
-              </button>
-              <button class="flex items-center gap-2 hover:text-purple-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Share
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Post 4 -->
-        <div class="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden shadow-lg mb-6 hover:shadow-indigo-500/10 transition">
-          <!-- Post Header -->
-          <div class="p-6 pb-4">
-            <div class="flex items-start justify-between mb-4">
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full bg-linear-to-br from-indigo-500 to-purple-500 shrink-0"></div>
-                <div>
-                  <p class="font-bold text-white">AnimeRecommendations</p>
-                  <p class="text-xs text-slate-400">8 hours ago</p>
-                </div>
-              </div>
-              <button class="text-slate-400 hover:text-slate-300 transition">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.5 1.5H9.5V9.5H1.5V10.5H9.5V18.5H10.5V10.5H18.5V9.5H10.5V1.5Z"/>
-                </svg>
-              </button>
-            </div>
-            <p class="text-slate-200 mb-4">If you haven't watched Demon Slayer yet, you're seriously missing out. The demon designs are incredible and the soundtrack hits different. 10/10 would recommend! ⚔️</p>
-          </div>
-
-          <!-- Post Stats & Actions -->
-          <div class="p-6 pt-4">
-            <div class="flex items-center justify-between text-xs text-slate-400 mb-4 pb-4 border-b border-slate-700/50">
-              <div class="flex gap-4">
-                <span>&#10084; 203 likes</span>
-                <span>&#128172; 51 comments</span>
-              </div>
-              <span>&#8599; 29 shares</span>
-            </div>
-            <div class="flex items-center justify-around text-slate-400 text-sm">
-              <button class="flex items-center gap-2 hover:text-pink-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                Like
-              </button>
-              <button class="flex items-center gap-2 hover:text-blue-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                </svg>
-                Comment
-              </button>
-              <button class="flex items-center gap-2 hover:text-purple-400 transition py-2 px-4 rounded hover:bg-slate-700/50 w-full justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Share
-              </button>
-            </div>
-          </div>
-        </div>
-
+        <!-- Original dummy posts below (for reference, can be removed) -->
+     
         <!-- Load More Section -->
         <div class="text-center py-8">
           <button class="px-8 py-3 bg-slate-800/50 border border-slate-700/50 hover:border-purple-500/50 text-slate-300 hover:text-purple-300 font-semibold rounded-lg transition duration-300 backdrop-blur">
@@ -275,12 +77,12 @@
       <!-- Hero Section with Background -->
       <div class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <!-- Animated background -->
-        <div class="absolute inset-0 bg-linear-to-b from-slate-900 via-purple-900 to-slate-950"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-purple-900 to-slate-950"></div>
         
         <div class="relative z-10 container mx-auto px-4 text-center max-w-5xl">
           <!-- Logo -->
           <div class="mb-12 inline-block">
-            <div class="text-6xl font-black text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400 flex items-center justify-center gap-3 mb-6">
+            <div class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center gap-3 mb-6">
               <span class="text-7xl animate-bounce" style="animation-delay: 0s;">⟨</span>
               <span>WeaboTalk</span>
               <span class="text-7xl animate-bounce" style="animation-delay: 0.2s;">⟩</span>
@@ -289,7 +91,7 @@
 
           <!-- Main Headline -->
           <h1 class="text-6xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
-            <span class="text-transparent bg-clip-text bg-linear-to-r from-purple-300 via-pink-300 to-indigo-300">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-indigo-300">
               Your Anime Universe
             </span>
           </h1>
@@ -303,7 +105,7 @@
           <!-- CTA Buttons -->
           <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16">
             <%= link_to "Start Your Journey", new_user_registration_path, 
-                class: "px-8 py-4 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-lg rounded-xl shadow-xl hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105" %>
+                class: "px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-lg rounded-xl shadow-xl hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105" %>
             <%= link_to "Sign In", new_user_session_path, 
                 class: "px-8 py-4 bg-white/10 hover:bg-white/20 border-2 border-purple-400/50 hover:border-purple-400 text-white font-black text-lg rounded-xl backdrop-blur-md transition-all duration-300" %>
           </div>
@@ -320,14 +122,14 @@
       <!-- Features Section -->
       <div class="bg-slate-900/50 py-20">
         <div class="container mx-auto px-4">
-          <h2 class="text-5xl font-black text-center mb-16 text-transparent bg-clip-text bg-linear-to-r from-purple-300 to-pink-300">
+          <h2 class="text-5xl font-black text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-300">
             What Awaits You
           </h2>
 
           <div class="grid md:grid-cols-3 gap-8">
             <!-- Feature: Post Creation -->
-            <div class="group relative bg-linear-to-br from-blue-900/50 to-blue-950/50 rounded-2xl p-8 border border-blue-500/30 hover:border-blue-400/60 backdrop-blur-md transition-all duration-300 overflow-hidden cursor-default">
-              <div class="absolute inset-0 bg-linear-to-br from-blue-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="group relative bg-gradient-to-br from-blue-900/50 to-blue-950/50 rounded-2xl p-8 border border-blue-500/30 hover:border-blue-400/60 backdrop-blur-md transition-all duration-300 overflow-hidden cursor-default">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div class="relative z-10">
                 <div class="text-6xl mb-6">✍️</div>
                 <h3 class="text-2xl font-black text-white mb-3">Create Posts</h3>
@@ -339,8 +141,8 @@
             </div>
 
             <!-- Feature: Discussions -->
-            <div class="group relative bg-linear-to-br from-pink-900/50 to-pink-950/50 rounded-2xl p-8 border border-pink-500/30 hover:border-pink-400/60 backdrop-blur-md transition-all duration-300 overflow-hidden cursor-default">
-              <div class="absolute inset-0 bg-linear-to-br from-pink-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="group relative bg-gradient-to-br from-pink-900/50 to-pink-950/50 rounded-2xl p-8 border border-pink-500/30 hover:border-pink-400/60 backdrop-blur-md transition-all duration-300 overflow-hidden cursor-default">
+              <div class="absolute inset-0 bg-gradient-to-br from-pink-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div class="relative z-10">
                 <div class="text-6xl mb-6">💬</div>
                 <h3 class="text-2xl font-black text-white mb-3">Join Discussions</h3>
@@ -352,8 +154,8 @@
             </div>
 
             <!-- Feature: Community -->
-            <div class="group relative bg-linear-to-br from-amber-900/50 to-amber-950/50 rounded-2xl p-8 border border-amber-500/30 hover:border-amber-400/60 backdrop-blur-md transition-all duration-300 overflow-hidden cursor-default">
-              <div class="absolute inset-0 bg-linear-to-br from-amber-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="group relative bg-gradient-to-br from-amber-900/50 to-amber-950/50 rounded-2xl p-8 border border-amber-500/30 hover:border-amber-400/60 backdrop-blur-md transition-all duration-300 overflow-hidden cursor-default">
+              <div class="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div class="relative z-10">
                 <div class="text-6xl mb-6">👥</div>
                 <h3 class="text-2xl font-black text-white mb-3">Build Community</h3>
@@ -369,25 +171,25 @@
 
       <!-- Stats Section -->
       <div class="container mx-auto px-4 py-20">
-        <h2 class="text-5xl font-black text-center mb-16 text-transparent bg-clip-text bg-linear-to-r from-purple-300 to-pink-300">
+        <h2 class="text-5xl font-black text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-300">
           Join Our Growing Community
         </h2>
 
         <div class="grid md:grid-cols-3 gap-8">
-          <div class="bg-linear-to-br from-purple-900/40 to-slate-900/40 rounded-2xl p-12 border border-purple-500/20 text-center backdrop-blur-md">
-            <div class="text-5xl font-black text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400 mb-4">1000+</div>
+          <div class="bg-gradient-to-br from-purple-900/40 to-slate-900/40 rounded-2xl p-12 border border-purple-500/20 text-center backdrop-blur-md">
+            <div class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 mb-4">1000+</div>
             <p class="text-purple-100/70 text-lg font-semibold">Active Members</p>
             <p class="text-purple-100/50 text-sm mt-2">Growing daily</p>
           </div>
 
-          <div class="bg-linear-to-br from-pink-900/40 to-slate-900/40 rounded-2xl p-12 border border-pink-500/20 text-center backdrop-blur-md">
-            <div class="text-5xl font-black text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-rose-400 mb-4">5000+</div>
+          <div class="bg-gradient-to-br from-pink-900/40 to-slate-900/40 rounded-2xl p-12 border border-pink-500/20 text-center backdrop-blur-md">
+            <div class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400 mb-4">5000+</div>
             <p class="text-pink-100/70 text-lg font-semibold">Discussions</p>
             <p class="text-pink-100/50 text-sm mt-2">New posts daily</p>
           </div>
 
-          <div class="bg-linear-to-br from-indigo-900/40 to-slate-900/40 rounded-2xl p-12 border border-indigo-500/20 text-center backdrop-blur-md">
-            <div class="text-5xl font-black text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-cyan-400 mb-4">24/7</div>
+          <div class="bg-gradient-to-br from-indigo-900/40 to-slate-900/40 rounded-2xl p-12 border border-indigo-500/20 text-center backdrop-blur-md">
+            <div class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400 mb-4">24/7</div>
             <p class="text-indigo-100/70 text-lg font-semibold">Community Support</p>
             <p class="text-indigo-100/50 text-sm mt-2">Always online</p>
           </div>
@@ -395,21 +197,21 @@
       </div>
 
       <!-- Final CTA -->
-      <div class="bg-linear-to-r from-purple-900/40 via-slate-900/40 to-indigo-900/40 border-t border-purple-500/20 py-20">
+      <div class="bg-gradient-to-r from-purple-900/40 via-slate-900/40 to-indigo-900/40 border-t border-purple-500/20 py-20">
         <div class="container mx-auto px-4 text-center">
-          <h2 class="text-5xl md:text-6xl font-black mb-6 text-transparent bg-clip-text bg-linear-to-r from-purple-300 via-pink-300 to-indigo-300">
+          <h2 class="text-5xl md:text-6xl font-black mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-indigo-300">
             Ready to Join the Anime Revolution?
           </h2>
           <p class="text-purple-100/70 text-lg mb-12 max-w-2xl mx-auto">
             Create your account now and start sharing your anime passion with a community of true enthusiasts.
           </p>
           <%= link_to "Create Account Now", new_user_registration_path, 
-              class: "inline-block px-10 py-4 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-lg rounded-xl shadow-xl hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105" %>
+              class: "inline-block px-10 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-lg rounded-xl shadow-xl hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105" %>
         </div>
       </div>
 
       <!-- Footer Spacing -->
       <div class="h-12"></div>
     <% end %>
-  </div>
-</div>
+
+

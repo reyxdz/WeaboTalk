@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    confirmations: 'users/confirmations',
-    sessions: 'users/sessions',
-    passwords: 'users/passwords'
+    registrations: "users/registrations",
+    confirmations: "users/confirmations",
+    sessions: "users/sessions",
+    passwords: "users/passwords"
   }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  # Forms validation
+  post "forms/validate", to: "forms#validate", as: :validate_form
+
   # Pages
   get "home", to: "pages#home"
 
@@ -23,6 +26,31 @@ Rails.application.routes.draw do
   get "/profiles/:username/edit", to: "profiles#edit", as: :edit_profile
   patch "/profiles/:username", to: "profiles#update"
   put "/profiles/:username", to: "profiles#update"
+
+  # Users
+  match "users/search", to: "users#search", as: :search_users, via: [ :get, :post ]
+  get "users/:id", to: "users#show", as: :user
+
+  # Posts with nested comments, likes, and reactions
+  resources :posts do
+    resources :comments, only: [ :create, :destroy ]
+    resources :likes, only: [ :create, :destroy ]
+    resources :reactions, only: [ :create, :destroy ]
+    member do
+      patch :publish
+    end
+  end
+  post "posts/save-draft", to: "posts#save_draft", as: :save_draft_post
+  get "my-drafts", to: "posts#drafts", as: :drafts_posts
+
+  # Friendships
+  resources :friendships, only: [ :create, :destroy, :update, :index ]
+  get "friend-requests", to: "friendships#pending_requests", as: :pending_friend_requests
+
+  # Notifications
+  resources :notifications, only: [ :index, :destroy ]
+  patch "notifications/:id/mark-as-read", to: "notifications#mark_as_read", as: :mark_notification_as_read
+  patch "notifications/mark-all-as-read", to: "notifications#mark_all_as_read", as: :mark_all_notifications_as_read
 
   # Defines the root path route ("/")
   root "pages#home"

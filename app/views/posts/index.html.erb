@@ -1,0 +1,82 @@
+<div class="min-h-screen bg-slate-950 text-white">
+  <!-- Animated Particles Background -->
+  <div class="fixed inset-0 opacity-20 pointer-events-none z-0">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+    <div class="absolute -bottom-8 right-1/3 w-96 h-96 bg-pink-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 right-1/4 w-96 h-96 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation-delay: 4s;"></div>
+  </div>
+
+  <div class="relative z-10">
+    <!-- Flash Messages -->
+    <% if notice.present? %>
+      <div class="fixed top-20 left-1/2 -translate-x-1/2 w-96 bg-emerald-900/80 border border-emerald-500/50 p-4 rounded-lg shadow-xl backdrop-blur-md z-50">
+        <div class="flex items-start">
+          <svg class="w-6 h-6 text-emerald-400 mt-0.5 mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-emerald-100 font-semibold text-sm"><%= notice %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <% if alert.present? %>
+      <div class="fixed top-20 left-1/2 -translate-x-1/2 w-96 bg-rose-900/80 border border-rose-500/50 p-4 rounded-lg shadow-xl backdrop-blur-md z-50">
+        <div class="flex items-start">
+          <svg class="w-6 h-6 text-rose-400 mt-0.5 mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-rose-100 font-semibold text-sm"><%= alert %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <!-- Authenticated User Feed -->
+      <!-- Main Feed Container -->
+      <div class="container mx-auto px-4 py-8 max-w-3xl">
+        <!-- Create Post Box -->
+        <div class="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-xl p-6 mb-8 shadow-lg">
+          <div class="flex items-center gap-4">
+            <%= render Profiles::ImageComponent.new(user: current_user, size: "md") %>
+            <%= link_to "What's on your mind? Share your thoughts...", new_post_path, class: "flex-1 bg-slate-700/50 border border-slate-600/50 rounded-full px-4 py-3 text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 block hover:bg-slate-700 transition" %>
+          </div>
+        </div>
+
+        <!-- Posts Feed Container -->
+        <turbo-frame id="posts-feed">
+          <% if @posts&.any? %>
+            <% @posts.each do |post| %>
+              <%= render "posts/post", post: post %>
+            <% end %>
+
+            <!-- Pagination -->
+            <div class="mt-8 flex items-center justify-center gap-2">
+              <%== pagy_nav(@pagy) %>
+            </div>
+          <% else %>
+            <div class="text-center py-12 bg-slate-800/30 border border-slate-700/30 rounded-xl">
+              <div class="text-6xl mb-4">📝</div>
+              <h2 class="text-xl font-semibold text-slate-300">No posts yet</h2>
+              <p class="text-slate-400 mt-2">Follow friends and share your thoughts to see posts here!</p>
+              <%= link_to "Be the first to post", new_post_path, class: "inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold" %>
+            </div>
+          <% end %>
+        </turbo-frame>
+      </div>
+    <% else %>
+      <!-- Unauthenticated User Landing Page -->
+      <div class="flex flex-col items-center justify-center min-h-screen p-4">
+        <div class="text-center max-w-2xl">
+          <h1 class="text-5xl font-bold mb-4">
+            <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">WeaboTalk</span>
+          </h1>
+          <p class="text-xl text-slate-300 mb-8">Connect with anime enthusiasts, share your thoughts, and engage with the community.</p>
+          <div class="flex gap-4 justify-center">
+            <%= link_to "Sign In", user_session_path, class: "px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition" %>
+            <%= link_to "Sign Up", new_user_registration_path, class: "px-8 py-3 bg-slate-700/50 hover:bg-slate-700 text-white rounded-lg font-semibold transition border border-slate-600/50" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

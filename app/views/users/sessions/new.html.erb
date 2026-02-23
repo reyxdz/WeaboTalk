@@ -8,7 +8,7 @@
     </div>
 
     <!-- Form -->
-    <%= form_with model: resource, as: resource_name, local: true, url: user_session_path, class: "space-y-4" do |form| %>
+    <%= form_with model: resource, as: resource_name, local: true, url: user_session_path, html: { data: { controller: "form-validation", validation_url: validate_form_path, validation_type: "login" } }, class: "space-y-4" do |form| %>
       <!-- Flash Messages (Devise alerts) -->
       <% if notice.present? %>
         <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-4">

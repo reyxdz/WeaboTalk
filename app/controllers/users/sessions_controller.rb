@@ -2,10 +2,10 @@
 
 module Users
   class SessionsController < Devise::SessionsController
-    layout "devise", only: [:new, :create]
+    layout "devise", only: [ :new, :create ]
 
     # Before attempting to sign in, check if account is unconfirmed
-    before_action :check_unconfirmed_account, only: [:create]
+    before_action :check_unconfirmed_account, only: [ :create ]
 
     # Override destroy action to provide better UX
     def destroy

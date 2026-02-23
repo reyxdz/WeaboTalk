@@ -1,0 +1,32 @@
+<div class="flex items-start justify-between mb-4">
+  <div class="flex items-center gap-3">
+    <%= render Profiles::ImageComponent.new(user: post.user, size: "md") %>
+
+    <div>
+      <p class="font-semibold text-slate-100">
+        <%= link_to username, user_profile_path, class: "hover:text-purple-400 transition" %>
+      </p>
+      <p class="text-xs text-slate-400">
+        <%= time_since_creation %> ago
+        <% if is_edited? %>
+          (edited)
+        <% end %>
+      </p>
+    </div>
+  </div>
+
+  <% if is_post_owner? %>
+    <div class="relative group">
+      <button class="p-2 hover:bg-slate-700/50 rounded-lg transition">
+        <svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10.5 1.5H9.5V3.5H10.5V1.5ZM10.5 16.5H9.5V18.5H10.5V16.5ZM3 10.5C3 11.0304 2.78929 11.5391 2.41421 11.9142C2.03914 12.2893 1.53043 12.5 1 12.5V11.5C1.26522 11.5 1.51957 11.3946 1.70711 11.2071C1.89464 11.0196 2 10.7652 2 10.5C2 10.2348 1.89464 9.98043 1.70711 9.79289C1.51957 9.60536 1.26522 9.5 1 9.5V8.5C1.53043 8.5 2.03914 8.71071 2.41421 9.08579C2.78929 9.46086 3 9.96957 3 10.5ZM10.5 8.5C9.96957 8.5 9.46086 8.71071 9.08579 9.08579C8.71071 9.46086 8.5 9.96957 8.5 10.5C8.5 11.0304 8.71071 11.5391 9.08579 11.9142C9.46086 12.2893 9.96957 12.5 10.5 12.5C11.0304 12.5 11.5391 12.2893 11.9142 11.9142C12.2893 11.5391 12.5 11.0304 12.5 10.5C12.5 9.96957 12.2893 9.46086 11.9142 9.08579C11.5391 9.46086 11.0304 8.5 10.5 8.5Z" />
+        </svg>
+      </button>
+
+      <div class="absolute right-0 mt-2 w-48 bg-slate-900/95 backdrop-blur-md border border-slate-700/50 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-10">
+        <%= link_to "Edit Post", edit_post_path(post), class: "block w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800/50 transition" %>
+        <%= button_to "Delete Post", post_path(post), method: :delete, local: true, data: { turbo_confirm: "Are you sure?", turbo_stream: true  }, class: "block w-full text-left px-4 py-2 text-sm text-rose-400 hover:bg-rose-900/30 transition bg-transparent border-0" %>
+      </div>
+    </div>
+  <% end %>
+</div>

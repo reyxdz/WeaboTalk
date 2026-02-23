@@ -1,0 +1,57 @@
+<div class="min-h-screen bg-slate-950 text-white">
+  <div class="container mx-auto px-4 py-8 max-w-3xl">
+    <!-- Back Button -->
+    <div class="mb-6">
+      <%= link_to "← Back", friendships_path, class: "text-purple-400 hover:text-purple-300 transition font-semibold" %>
+    </div>
+
+    <!-- Search Results Header -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-slate-100 mb-4">
+        <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Find Users</span>
+      </h1>
+
+      <!-- Search Form -->
+      <%= form_with url: search_users_path, method: :get, local: true, class: "mb-8" do |f| %>
+        <div class="flex gap-2">
+          <%= f.text_field :q, placeholder: "Search by username...", value: @query, class: "flex-1 bg-slate-700/50 border border-slate-600/50 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500" %>
+          <%= f.submit "Search", class: "px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Search Results -->
+    <% if @query.present? %>
+      <% if @users.any? %>
+        <div class="space-y-3">
+          <% @users.each do |profile| %>
+            <div class="bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-lg p-4 flex items-center justify-between hover:border-slate-700 transition">
+              <div class="flex items-center gap-4 flex-1">
+                <%= render Profiles::ImageComponent.new(user: profile.user, size: "lg") %>
+                
+                <div class="flex-1">
+                  <h3 class="font-semibold text-slate-100 text-lg">
+                    <%= link_to profile.username, profile_path(profile.username), class: "hover:text-purple-400 transition" %>
+                  </h3>
+                  <p class="text-sm text-slate-400 mt-1"><%= profile.bio.present? ? profile.bio : "No bio yet" %></p>
+                </div>
+              </div>
+
+              <div class="flex gap-2">
+                <%= link_to "View Profile", profile_path(profile.username), class: "px-3 py-2 bg-purple-600/50 hover:bg-purple-600 text-white rounded-lg transition text-sm font-semibold" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-12 text-slate-400">
+          <p>No users found matching "<%= @query %>"</p>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="text-center py-12 text-slate-400">
+        <p>Enter a username to search</p>
+      </div>
+    <% end %>
+  </div>
+</div>

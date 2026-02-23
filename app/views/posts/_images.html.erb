@@ -1,0 +1,26 @@
+<% if images.any? %>
+  <% if images.count == 1 %>
+    <!-- Single Image: Large, Responsive Display -->
+    <div class="mb-4 rounded-lg overflow-hidden">
+      <% if images.first.image.attached? %>
+        <%= image_tag images.first.image, 
+            alt: "Post image", 
+            class: "w-full h-auto max-h-96 object-cover" %>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Multiple Images: Responsive Grid Gallery -->
+    <div class="mb-4 grid gap-2" 
+         style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+      <% images.each do |image| %>
+        <% if image.image.attached? %>
+          <div class="rounded-lg overflow-hidden aspect-square">
+            <%= image_tag image.image, 
+                alt: "Post image", 
+                class: "w-full h-full object-cover hover:scale-105 transition" %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

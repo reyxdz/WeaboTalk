@@ -1,0 +1,63 @@
+<div class="min-h-screen bg-slate-950 text-white">
+  <div class="container mx-auto px-4 py-8 max-w-3xl">
+    <!-- Header -->
+    <div class="mb-8 flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold mb-2">
+          <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Notifications</span>
+        </h1>
+        <p class="text-slate-400">Stay updated with all your activity</p>
+      </div>
+
+      <% if current_user.notifications.unread.any? %>
+        <%= button_to "Mark All Read", mark_all_notifications_as_read_path, method: :patch, local: true, class: "px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold" %>
+      <% end %>
+    </div>
+
+    <!-- Notifications List -->
+    <div id="notifications-list" class="space-y-4">
+      <% if @notifications.any? %>
+        <% @notifications.each do |notification| %>
+          <%= render "notifications/notification", notification: notification %>
+        <% end %>
+
+        <!-- Pagination -->
+        <% if @pagy.pages > 1 %>
+          <nav aria-label="pagination" class="flex justify-center gap-2 mt-8">
+            <% if @pagy.prev %>
+              <%= link_to "← Previous", notifications_path(page: @pagy.prev), class: "px-4 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg transition" %>
+            <% else %>
+              <span class="px-4 py-2 bg-slate-800/50 text-slate-500 rounded-lg">← Previous</span>
+            <% end %>
+
+            <div class="flex gap-1">
+              <% @pagy.series.each do |page| %>
+                <% if page.is_a?(Integer) %>
+                  <% if page == @pagy.page %>
+                    <span class="px-3 py-2 bg-purple-600 text-white rounded-lg font-semibold"><%= page %></span>
+                  <% else %>
+                    <%= link_to page, notifications_path(page: page), class: "px-3 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg transition" %>
+                  <% end %>
+                <% elsif page == "gap" %>
+                  <span class="px-2 py-2 text-slate-400">...</span>
+                <% end %>
+              <% end %>
+            </div>
+
+            <% if @pagy.next %>
+              <%= link_to "Next →", notifications_path(page: @pagy.next), class: "px-4 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg transition" %>
+            <% else %>
+              <span class="px-4 py-2 bg-slate-800/50 text-slate-500 rounded-lg">Next →</span>
+            <% end %>
+          </nav>
+        <% end %>
+      <% else %>
+        <div class="text-center py-12">
+          <div class="text-6xl mb-4">🔔</div>
+          <h2 class="text-xl font-semibold text-slate-300">All caught up!</h2>
+          <p class="text-slate-400 mt-2">No new notifications</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<!-- Real-time User Search Box Component -->
+<div 
+  data-controller="user-search" 
+  data-user-search-url="<%= search_users_path %>"
+  data-user-search-min-length="1"
+  data-user-search-debounce-delay="300"
+  class="flex-1 max-w-lg relative z-40"
+>
+  <!-- Search Input Container -->
+  <div class="flex items-center gap-2">
+    <!-- Search Input Field -->
+    <div class="relative flex-1">
+      <input
+        type="text"
+        data-user-search-target="input"
+        placeholder="Search users (name or bio)..."
+        autocomplete="off"
+        spellcheck="false"
+        class="w-full bg-slate-700/30 border border-slate-600/50 rounded-lg px-4 py-2 pl-10 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
+      />
+      
+      <!-- Search Icon -->
+      <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+
+      <!-- Loading Indicator -->
+      <div 
+        data-user-search-target="loader" 
+        class="absolute right-3 top-1/2 transform -translate-y-1/2 hidden"
+      >
+        <svg class="animate-spin w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Search Button -->
+    <button
+      type="button"
+      data-user-search-target="submitButton"
+      class="px-4 py-2 bg-purple-600 text-white rounded-lg transition font-semibold text-sm flex items-center gap-2 flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-700 active:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
+      disabled
+      title="Click to search or press Enter"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <span class="hidden sm:inline">Search</span>
+    </button>
+  </div>
+
+  <!-- Search Results Dropdown -->
+  <div 
+    data-user-search-target="results"
+    class="absolute top-full left-0 right-0 mt-2 bg-slate-900/95 backdrop-blur-md border border-slate-700/50 rounded-lg shadow-xl z-50 overflow-hidden hidden"
+    style="max-height: 24rem; overflow-y: auto;"
+  >
+    <!-- Results will be dynamically populated here -->
+  </div>
+</div>
+
+<style>
+  [data-user-search-target="results"] {
+    /* Ensure results are always visible when content is added */
+    will-change: display;
+  }
+
+  [data-user-search-target="results"]:not(.hidden) {
+    display: block;
+    padding: 0.5rem 0;
+  }
+
+  [data-user-search-target="results"] a {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin: 0 0.5rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0.5rem;
+    /* Ensure links are clickable */
+    pointer-events: auto;
+    outline: none;
+  }
+
+  [data-user-search-target="results"] a:focus {
+    background-color: rgba(71, 85, 105, 0.5);
+  }
+
+  [data-user-search-target="input"]:focus + svg {
+    color: rgb(168, 85, 247);
+  }
+</style>

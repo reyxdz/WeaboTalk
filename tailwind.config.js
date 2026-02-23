@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+
+
 module.exports = {
   content: [
     './app/views/**/*.{html,erb}',
@@ -9,6 +11,9 @@ module.exports = {
   theme: {
     extend: {},
   },
+  corePlugins: {
+  animation: false,
+},
   plugins: [
     require("daisyui"),
   ],

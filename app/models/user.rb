@@ -6,6 +6,22 @@ class User < ApplicationRecord
 
   # Associations
   has_one :profile, dependent: :destroy
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :reactions, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+
+  # Friendships
+  has_many :friendships, dependent: :destroy
+  has_many :friends, -> { where(friendships: { status: "accepted" }) }, through: :friendships, source: :friend
+  has_many :friend_requests, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
+  has_many :requested_by, through: :friend_requests, source: :user
+
+  # Active friendships (initiated by this user)
+  has_many :active_friendships, class_name: "Friendship", foreign_key: "user_id", dependent: :destroy
+  # Passive friendships (requested to this user)
+  has_many :passive_friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
 
   # Callbacks
   after_create :create_profile
@@ -23,7 +39,7 @@ class User < ApplicationRecord
 
   def create_profile
     # Extract username from email (before @)
-    username = email.split('@').first.downcase
+    username = email.split("@").first.downcase
     # Ensure uniqueness by appending random suffix if needed
     username = "#{username}#{rand(1000..9999)}" if Profile.exists?(username: username)
     Profile.create!(user: self, username: username)

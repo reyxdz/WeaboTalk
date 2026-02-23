@@ -12,130 +12,178 @@
 
 ## 📋 Overview
 
-WeaboTalk is an MVP (Minimum Viable Product) social platform built with **Ruby on Rails** and **PostgreSQL**, featuring real-time notifications via **Action Cable** and modern frontend interactions with **Hotwire Stimulus**.
+WeaboTalk is a full-featured social media platform built with **Ruby on Rails 8.1** and **PostgreSQL**, featuring real-time notifications via **Action Cable** and modern frontend interactions with **Hotwire (Turbo + Stimulus)**.
 
-### Core Features (MVP)
+### ✨ Features
 
-✅ **User Authentication** - Sign up, login, password recovery  
-✅ **User Profiles** - Avatar, banner, bio  
-✅ **Post Creation** - Text posts with images  
-✅ **Engagement** - Like, react with emojis, comment  
-✅ **Real-time Notifications** - Comment, like, reaction, friend request alerts  
-✅ **Friend System** - Add/remove friends, friend requests  
-✅ **User Search** - Find other anime lovers  
+✅ **User Authentication**
+
+- Sign up / Sign in with Devise
+- Email confirmation required
+- Password recovery
+- Secure session management
+
+✅ **User Profiles**
+
+- Custom username
+- Avatar and banner images (Active Storage)
+- Bio/description
+- Followers/following counts
+
+✅ **Post Creation**
+
+- Create posts with title and content
+- Multiple image uploads per post
+- Edit and delete own posts
+- Image preview before posting
+
+✅ **Engagement System**
+
+- **Likes**: Toggle like/unlike on posts
+- **Reactions**: 9 emoji reactions (😍, 😂, 😢, 😡, 👍, 🔥, 💯, ❤️, 🎉)
+- **Comments**: Threaded/reply support
+
+✅ **Friend System**
+
+- Send friend requests
+- Accept/reject requests
+- View pending requests
+- Remove friends
+
+✅ **Real-time Notifications**
+
+- Live notifications via WebSocket (Action Cable)
+- Notifications for: new comments, likes, reactions, friend requests
+- Mark as read / Mark all as read
+
+✅ **User Search**
+
+- Find users by username
+- Search results page
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Backend
-- **Framework**: Ruby on Rails 8.1
-- **Database**: PostgreSQL 13+
-- **Authentication**: Devise gem
-- **Authorization**: Pundit gem
-- **Real-time**: Action Cable with WebSocket
+
+| Technology       | Purpose              |
+| ---------------- | -------------------- |
+| **Ruby 4.0.0**   | Programming language |
+| **Rails 8.1.2**  | Web framework        |
+| **PostgreSQL**   | Primary database     |
+| **Devise**       | Authentication       |
+| **Pundit**       | Authorization        |
+| **Sidekiq**      | Background jobs      |
+| **Action Cable** | Real-time WebSocket  |
 
 ### Frontend
-- **JavaScript Framework**: Hotwire Stimulus
-- **HTTP Protocol**: Turbo (included in Rails)
-- **CSS Framework**: Tailwind CSS with Daisy UI components
-- **Build Tool**: esbuild/Webpack
 
-### Additional Gems
-- **Authentication**: devise
-- **Authorization**: pundit (~> 2.3)
-- **Pagination**: pagy (~> 7.0)
-- **Background Jobs**: sidekiq
-- **Image Processing**: image_processing (~> 1.2)
-- **Active Storage**: For image uploads
+| Technology           | Purpose                  |
+| -------------------- | ------------------------ |
+| **Hotwire Turbo**    | SPA-like page navigation |
+| **Hotwire Stimulus** | Interactive JavaScript   |
+| **Tailwind CSS**     | Utility-first CSS        |
+| **Daisy UI**         | UI component library     |
+| **esbuild**          | JavaScript bundler       |
+
+### Key Gems
+
+```ruby
+gem "devise"                    # Authentication
+gem "pundit", "~> 2.3"          # Authorization
+gem "pagy", "~> 7.0"            # Pagination
+gem "sidekiq"                   # Background jobs
+gem "image_processing", "~> 1.2" # Image processing
+gem "view_component", "~> 3.0"  # View components
+gem "tailwindcss-rails"         # Tailwind integration
+gem "turbo-rails"               # Hotwire Turbo
+gem "stimulus-rails"            # Hotwire Stimulus
+```
 
 ---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Ruby 4.0.0+
 - Rails 8.1.2+
 - PostgreSQL 13+
 - Node.js 18+
-- Git
 - Bundler
+- Redis (for Action Cable/Sidekiq)
 
-### Installation Steps
+### Installation
 
 ```bash
 # 1. Clone the repository
 git clone <repository-url>
-cd weabotalk
+cd WeaboTalk
 
-# 2. Install Ruby dependencies
+# 2. Install dependencies
 bundle install
 
-# 3. Create database
+# 3. Setup database
 rails db:create
-
-# 4. Run migrations
 rails db:migrate
 
-# 5. Setup Devise
-rails generate devise:install
-rails generate devise User
-rails db:migrate
-
-# 6. Install JavaScript dependencies
+# 4. Install JavaScript dependencies
 ./bin/dev
 
-# 7. Visit application
-open http://localhost:3000
+# 5. Start the development server
+# Visit http://localhost:3000
 ```
 
-For detailed setup instructions, see [SETUP_GUIDE.md](./SETUP_GUIDE.md)
+### Running the App
+
+```bash
+# Terminal 1: Start Rails + webpack
+./bin/dev
+
+# Terminal 2 (optional): Start Sidekiq for background jobs
+bundle exec sidekiq
+
+# Visit the app
+open http://localhost:3000
+```
 
 ---
 
 ## 📁 Project Structure
 
 ```
-weabotalk/
+WeaboTalk/
 ├── app/
-│   ├── models/              # Redux of business logic
-│   ├── controllers/         # Request handlers
-│   ├── views/              # View templates (ERB)
-│   ├── channels/           # Action Cable channels
-│   ├── jobs/               # Background jobs
-│   ├── policies/           # Pundit authorization
-│   └── javascript/controllers/  # Stimulus controllers
+│   ├── channels/              # Action Cable channels
+│   │   └── notifications_channel.rb
+│   ├── components/            # View Components
+│   │   ├── friendships/
+│   │   │   └── friend_item_component/
+│   │   ├── posts/
+│   │   │   └── header_component/
+│   │   └── profiles/
+│   │       └── image_component/
+│   ├── controllers/           # Rails controllers
+│   ├── javascript/
+│   │   └── controllers/       # Stimulus controllers
+│   │       ├── comment_form_controller.js
+│   │       ├── friend_button_controller.js
+│   │       ├── post_controller.js
+│   │       ├── post_form_controller.js
+│   │       └── reaction_picker_controller.js
+│   ├── models/                # ActiveRecord models
+│   └── views/                 # ERB templates
 ├── config/
-│   ├── routes.rb           # Routes configuration
-│   ├── cable.yml           # Action Cable config
-│   └── database.yml        # Database config
+│   ├── routes.rb              # Routes definition
+│   ├── cable.yml              # Action Cable config
+│   └── database.yml           # Database config
 ├── db/
-│   ├── migrate/            # Database migrations
-│   └── seeds.rb            # Seed data
-├── test/                   # Test suite
-├── Gemfile                 # Ruby dependencies
-├── PROJECT_MANAGEMENT.md   # Team & sprints
-├── SETUP_GUIDE.md         # Development setup
-├── DEVELOPER_GUIDE.md     # Quick reference
-└── ACTION_CABLE_SETUP.md  # Websocket guide
+│   ├── migrate/               # Database migrations
+│   └── schema.rb              # Database schema
+├── DOCUMENTS/                 # Implementation guides
+└── TEMPLATES/                 # Code templates
 ```
-
----
-
-## 👥 Team & Responsibilities
-
-| Member | Role | Responsibility | Technologies |
-|--------|------|-----------------|---------------|
-| **1** | Backend Lead | Authentication, User Profiles | Devise, PostgreSQL, Models |
-| **2** | Full-stack | Posts, Media Management | Active Storage, Stimulus, forms |
-| **3** | Real-time Lead | Engagement, Notifications | Action Cable, WebSocket, Sidekiq |
-
-### Sprint Planning
-See [PROJECT_MANAGEMENT.md](./PROJECT_MANAGEMENT.md) for:
-- User stories by member
-- Task allocation
-- Sprint phases
-- Database schema assignments
 
 ---
 
@@ -143,60 +191,158 @@ See [PROJECT_MANAGEMENT.md](./PROJECT_MANAGEMENT.md) for:
 
 ### Core Tables
 
-**users** (via Devise)
-- id, email, encrypted_password, created_at, updated_at
+| Table             | Description                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| **users**         | Devise user accounts (email, password, confirmation)         |
+| **profiles**      | User profiles (username, bio, avatar, banner)                |
+| **posts**         | User posts (title, content)                                  |
+| **post_images**   | Attached images for posts                                    |
+| **comments**      | Comments on posts (supports threading via parent_comment_id) |
+| **likes**         | Likes on posts (user + post, unique)                         |
+| **reactions**     | Emoji reactions (user + post + reaction_type)                |
+| **friendships**   | Friend relationships (user, friend, status)                  |
+| **notifications** | Real-time notifications (polymorphic)                        |
 
-**profiles**
-- id, user_id, username, bio, avatar, banner
+### Relationships
 
-**posts**
-- id, user_id, title, content, created_at, updated_at
-
-**comments**
-- id, user_id, post_id, parent_comment_id, content
-
-**likes**
-- id, user_id, post_id (unique constraint)
-
-**reactions**
-- id, user_id, post_id, reaction_type (emoji)
-
-**friendships**
-- id, user_id, friend_id, status (pending/accepted)
-
-**notifications** (polymorphic)
-- id, user_id, notifiable_type, notifiable_id, notification_type, read_at
-
-See [db/MIGRATION_GUIDE.md](./db/MIGRATION_GUIDE.md) for migration templates.
+```
+User
+├── Profile (1:1)
+├── Posts (1:many)
+├── PostImages (1:many through Posts)
+├── Comments (1:many)
+├── Likes (1:many)
+├── Reactions (1:many)
+├── Friendships (1:many)
+└── Notifications (1:many)
+```
 
 ---
 
 ## 🔌 Key Features Implementation
 
 ### Real-time Notifications (Action Cable)
-See [ACTION_CABLE_SETUP.md](./ACTION_CABLE_SETUP.md)
 
-WebSocket connections enable live notifications for:
-- Comment on your post
-- Like/react to your post
-- Friend request received
+**Server-side** (`app/channels/notifications_channel.rb`):
 
-### Post Creation with Stimulus
-See templates in: `app/javascript/controllers/`
+```ruby
+class NotificationsChannel < ApplicationCable::Channel
+  def subscribed
+    stream_for current_user
+  end
+end
+```
 
-Features:
-- Real-time form validation
-- Drag-and-drop image upload
-- Image preview
-- Character counter
-- Stimulus-powered interactions
+**Features**:
 
-### Engagement System
-Features:
-- Like toggle
-- Emoji reactions (😍, 😂, 😢, 😡, 👍, 🔥, 💯, ❤️, 🎉)
-- Comment threads
-- Real-time updates
+- WebSocket connection for live updates
+- Notifications broadcast instantly
+- Works alongside Sidekiq for async processing
+
+### Stimulus Controllers
+
+| Controller                   | Purpose                                         |
+| ---------------------------- | ----------------------------------------------- |
+| `post_form_controller`       | Form validation, image preview, character count |
+| `reaction_picker_controller` | Emoji reaction picker UI                        |
+| `friend_button_controller`   | AJAX friend request handling                    |
+| `comment_form_controller`    | Comment form with validation                    |
+| `post_controller`            | Post interactions                               |
+
+### Turbo Streams
+
+Real-time updates using Turbo Stream responses:
+
+- `comments/create.turbo_stream.erb`
+- `comments/destroy.turbo_stream.erb`
+- `likes/update_likes.turbo_stream.erb`
+
+---
+
+## 📱 API Routes
+
+### Authentication
+
+```
+GET    /users/sign_up     # Sign up form
+POST   /users/sign_up     # Create account
+GET    /users/sign_in     # Sign in form
+POST   /users/sign_in     # Authenticate
+DELETE /users/sign_out    # Sign out
+```
+
+### Profiles
+
+```
+GET    /profiles/:username     # View profile
+GET    /profiles/:username/edit  # Edit form
+PATCH  /profiles/:username    # Update profile
+PUT    /profiles/:username    # Update profile
+```
+
+### Posts
+
+```
+GET    /posts              # List all posts
+POST   /posts              # Create post
+GET    /posts/:id          # View post
+PATCH  /posts/:id          # Update post
+DELETE /posts/:id          # Delete post
+```
+
+### Engagement
+
+```
+POST   /posts/:id/likes              # Like a post
+DELETE /posts/:id/likes              # Unlike a post
+POST   /posts/:id/reactions          # React to post
+DELETE /posts/:id/reactions          # Remove reaction
+POST   /posts/:id/comments           # Add comment
+DELETE /posts/:id/comments/:id      # Delete comment
+```
+
+### Friendships
+
+```
+GET    /friendships              # List friendships
+POST   /friendships              # Send friend request
+DELETE /friendships/:id          # Remove friend/withdraw request
+PATCH   /friendships/:id         # Accept/reject request
+GET    /friend-requests          # Pending requests
+```
+
+### Notifications
+
+```
+GET    /notifications                    # All notifications
+PATCH  /notifications/:id/mark-as-read  # Mark single as read
+PATCH  /notifications/mark-all-as-read  # Mark all as read
+DELETE /notifications/:id               # Delete notification
+```
+
+### User Search
+
+```
+GET    /users/search?q=keyword   # Search users
+```
+
+---
+
+## 🎨 UI Components
+
+### Daisy UI Components
+
+- Navbar with user menu
+- Cards for posts
+- Modals for forms
+- Dropdowns for actions
+- Forms with validation
+
+### View Components
+
+- `Profile::ImageComponent` - Avatar/banner display
+- `Posts::HeaderComponent` - Post header with author info
+- `Friendships::FriendItemComponent` - Friend list item
 
 ---
 
@@ -206,197 +352,100 @@ Features:
 # Run all tests
 rails test
 
-# Run specific test
+# Run specific test file
 rails test test/models/user_test.rb
 
-# With coverage report
+# Run with coverage
 bundle exec simplecov
 ```
-
-Test files are in:
-- `test/models/`
-- `test/controllers/`
-- `test/integration/`
 
 ---
 
 ## 🔒 Security Features
 
-✅ Devise for secure authentication  
-✅ Pundit for authorization  
-✅ CSRF protection on all forms  
-✅ Strong parameters validation  
-✅ Secure password storage (bcrypt)  
-✅ Encrypted database credentials  
+- ✅ Devise secure authentication
+- ✅ Pundit authorization policies
+- ✅ CSRF protection on all forms
+- ✅ Strong parameters validation
+- ✅ bcrypt password hashing
+- ✅ Email confirmation required
+- ✅ PostgreSQL parameterized queries
 
 ---
 
-## 📱 API Endpoints
+## 🚧 Development Notes
 
-### Authentication (Member 1)
-```
-POST   /users/sign_up
-POST   /users/sign_in
-DELETE /users/sign_out
-GET    /profiles/:id
-PATCH  /profiles/:id
-```
+### Environment Variables
 
-### Posts (Member 2)
-```
-GET    /posts
-POST   /posts
-GET    /posts/:id
-PATCH  /posts/:id
-DELETE /posts/:id
-```
-
-### Engagement (Member 3)
-```
-POST   /posts/:id/likes
-DELETE /posts/:id/likes
-POST   /posts/:id/reactions
-POST   /posts/:id/comments
-GET    /users/search
-POST   /friendships
-DELETE /friendships/:id
-GET    /notifications
-PATCH  /notifications/:id/read
-```
-
----
-
-## 🚀 Development Workflow
-
-### Feature Branch Workflow
-```bash
-# 1. Create feature branch
-git checkout -b feature/US-X.X-description
-
-# 2. Make changes and commit
-git add .
-git commit -m "[US-X.X] Description"
-
-# 3. Push to remote
-git push origin feature/US-X.X-description
-
-# 4. Create Pull Request on GitHub
-
-# 5. After code review, merge to main
-```
-
-### How to Run Locally
+Create a `.env` file for local development:
 
 ```bash
-# Terminal 1: Start Rails server
-./bin/dev
-
-# Terminal 2: Access the app
-open http://localhost:3000
+DATABASE_URL=postgresql://username:password@localhost/weabotalk_dev
+REDIS_URL=redis://localhost:6379/1
 ```
 
----
+### Code Style
 
-## 📖 Documentation
-
-| Document | Purpose |
-|----------|---------|
-| [SETUP_GUIDE.md](./SETUP_GUIDE.md) | Environment setup, troubleshooting |
-| [PROJECT_MANAGEMENT.md](./PROJECT_MANAGEMENT.md) | Sprint planning, task allocation |
-| [DEVELOPER_GUIDE.md](./DEVELOPER_GUIDE.md) | Quick reference for all developers |
-| [ACTION_CABLE_SETUP.md](./ACTION_CABLE_SETUP.md) | Real-time feature implementation |
-| [db/MIGRATION_GUIDE.md](./db/MIGRATION_GUIDE.md) | Database migration templates |
-
----
-
-## 🔧 Environment Setup
-
-### Development
 ```bash
-# Auto-runs Rails, Webpack, and asset pipeline
-./bin/dev
-```
+# Run Rubocop
+bundle exec rubocop
 
-### Production Deployment Checklist
-- [ ] PostgreSQL database configured
-- [ ] Redis instance running (for Action Cable)
-- [ ] Environment variables set (.env)
-- [ ] SSL certificates installed
-- [ ] Sidekiq job processor deployed
-- [ ] Error tracking (Sentry) configured
-- [ ] All tests passing
-- [ ] Security audit completed
+# Auto-fix issues
+bundle exec rubocop -a
+```
 
 ---
 
-## 📊 Performance Optimization
+## 📖 Additional Documentation
 
-- Implement database indexing
-- Use pagination (Pagy gem)
-- Cache frequently accessed data
-- Optimize images with Active Storage
-- Monitor with `view logs` in development
-- Profile with New Relic in production
+| Document                                                   | Purpose             |
+| ---------------------------------------------------------- | ------------------- |
+| [SETUP_GUIDE.md](./SETUP_GUIDE.md)                         | Environment setup   |
+| [DEVELOPER_GUIDE.md](./DEVELOPER_GUIDE.md)                 | Quick reference     |
+| [ACTION_CABLE_SETUP.md](./DOCUMENTS/ACTION_CABLE_SETUP.md) | WebSocket guide     |
+| [PROJECT_MANAGEMENT.md](./PROJECT_MANAGEMENT.md)           | Team & sprints      |
+| [db/MIGRATION_GUIDE.md](./db/MIGRATION_GUIDE.md)           | Migration templates |
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Common Issues
+### Port 3000 in use
 
-**Port 3000 in use?**
 ```bash
-lsof -i :3000 && kill -9 <PID>
+lsof -i :3000
+kill -9 <PID>
 ```
 
-**Bundle install failing?**
-```bash
-bundle install --force
-bundle update
-```
+### Database issues
 
-**Database errors?**
 ```bash
 rails db:drop db:create db:migrate
 ```
 
-**JavaScript not compiling?**
+### JavaScript not loading
+
 ```bash
-./bin/javascript-bundle-build
+./bin/dev  # Restart the dev server
 ```
-
-See [SETUP_GUIDE.md](./SETUP_GUIDE.md) for more troubleshooting.
-
----
-
-## 📝 Contributing
-
-1. Create a feature branch: `git checkout -b feature/US-X.X-description`
-2. Make your changes
-3. Write/update tests
-4. Commit: `git commit -m "[US-X.X] Description"`
-5. Push: `git push origin feature/US-X.X-description`
-6. Create Pull Request with code review
-
-### Code Standards
-- Follow Rails conventions
-- Use rubocop for linting: `bundle exec rubocop`
-- Write tests for new features
-- Document complex logic
 
 ---
 
 ## 🚢 Deployment
 
-### Production Deployment
+### Production Checklist
+
+- [ ] PostgreSQL database configured
+- [ ] Redis instance running
+- [ ] Environment variables set
+- [ ] SSL certificates installed
+- [ ] Sidekiq deployed
+- [ ] Assets precompiled
+
+### Deploy with Kamal
+
 ```bash
-# Build production assets
 rails assets:precompile
-
-# Run migrations on production
-rails db:migrate RAILS_ENV=production
-
-# Start Puma server with Kamal
 kamal deploy
 ```
 
@@ -405,38 +454,33 @@ kamal deploy
 ## 📚 Resources
 
 - [Ruby on Rails Guides](https://guides.rubyonrails.org/)
-- [Action Cable API](https://guides.rubyonrails.org/action_cable_overview.html)
-- [Devise Documentation](https://github.com/heartcombo/devise)
-- [Stimulus Handbook](https://stimulus.hotwired.dev/)
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
-- [Pundit Authorization](https://github.com/varvet/pundit)
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see LICENSE file for details.
+- [Hotwire Handbook](https://hotwired.dev/)
+- [Stimulus Docs](https://stimulus.hotwired.dev/)
+- [Devise Wiki](https://github.com/heartcombo/devise)
+- [Pundit Docs](https://github.com/varvet/pundit)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Daisy UI](https://daisyui.com/)
 
 ---
 
 ## 👨‍💻 Authors
 
 **WeaboTalk Team**
-- Member 1: Backend/Authentication
-- Member 2: Frontend/Posts
-- Member 3: Real-time/Notifications
+
+---
+
+## 📄 License
+
+MIT License - see LICENSE file for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
-Built with ❤️ for anime lovers using Ruby on Rails, Action Cable, and Hotwire Stimulus.
+Built with ❤️ for anime lovers using Ruby on Rails, Action Cable, and Hotwire.
 
 ---
 
-**Last Updated**: February 18, 2026  
-**Version**: 1.0.0 (MVP)  
-**Status**: 🚧 In Development
-#   W e a b o T a l k 
- 
- 
+**Last Updated**: February 20, 2026  
+**Version**: 1.0.0  
+**Status**: ✅ Complete

@@ -3,13 +3,13 @@
 module Users
   class ConfirmationsController < Devise::ConfirmationsController
     layout "devise"
-    
+
     # GET /resource/confirmation/new
     def new
       super
       @user_email = params[:email] || resource.email
     end
-    
+
     # POST /resource/confirmation
     def create
       self.resource = resource_class.send_confirmation_instructions(resource_params)
@@ -17,7 +17,7 @@ module Users
 
       if successfully_sent?(resource)
         respond_with({}, location: root_path) do |format|
-          format.html { redirect_to root_path, notice: 'Confirmation instructions sent successfully.' }
+          format.html { redirect_to root_path, notice: "Confirmation instructions sent successfully." }
         end
       else
         respond_with(resource)

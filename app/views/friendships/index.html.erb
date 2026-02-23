@@ -1,0 +1,36 @@
+<div class="min-h-screen bg-slate-950 text-white">
+  <div class="container mx-auto px-4 py-8 max-w-3xl">
+    <!-- Back Button -->
+    <div class="mb-6">
+      <%= link_to "← Back to Feed", home_path, class: "text-purple-400 hover:text-purple-300 transition font-semibold" %>
+    </div>
+
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-slate-100 mb-2">
+        <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Friends</span>
+      </h1>
+      <p class="text-slate-400"><%= @friends.count %> friend<%= @friends.count != 1 ? 's' : '' %></p>
+    </div>
+
+    <!-- Friends List -->
+    <% if @friends.any? %>
+      <div class="space-y-3">
+        <% @friends.each do |friend| %>
+          <%= render Friendships::FriendItemComponent.new(friend: friend, current_user: current_user) %>
+        <% end %>
+      </div>
+    <% else %>
+      <!-- Empty State -->
+      <div class="text-center py-16">
+        <div class="text-6xl mb-4">👥</div>
+        <h2 class="text-2xl font-bold text-slate-300 mb-2">No Friends Yet</h2>
+        <p class="text-slate-400 mb-6">Start connecting with other anime lovers!</p>
+        <div class="flex gap-3 justify-center">
+          <%= link_to "🔍 Find Users", search_users_path, class: "px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold" %>
+          <%= link_to "← Back", posts_path, class: "px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition font-semibold" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

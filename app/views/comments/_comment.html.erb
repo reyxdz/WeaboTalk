@@ -1,0 +1,45 @@
+<div id="comment-<%= comment.id %>" class="mb-4" data-controller="comment-form">
+  <div class="flex gap-3">
+    <%= render Profiles::ImageComponent.new(user: comment.user, size: "sm") %>
+    <div class="flex-1">
+      <div class="bg-slate-700/50 rounded-lg px-4 py-3">
+        <p class="font-semibold text-slate-200 text-sm">
+          <%= link_to comment.user.profile&.username || comment.user.email, profile_path(comment.user.profile&.username), class: "hover:text-purple-400 transition" %>
+        </p>
+        <p class="text-slate-300 text-sm mt-1 whitespace-pre-wrap">
+          <%= link_to_user_mentions(comment.content) %>
+        </p>
+      </div>
+
+      <div class="flex gap-4 mt-2 text-xs text-slate-400">
+        <span><%= time_ago_in_words(comment.created_at) %> ago</span>
+        <button class="text-slate-400 hover:text-slate-300 transition" data-action="click->comment-form#toggleReplyForm" data-comment-id="<%= comment.id %>">Reply</button>
+        <% if current_user&.id == comment.user_id %>
+          <%= button_to "Delete", post_comment_path(post, comment), method: :delete, local: true, data: { confirm: "Delete this comment?" }, class: "text-rose-400 hover:text-rose-300 transition bg-transparent border-0 p-0 cursor-pointer" %>
+        <% end %>
+      </div>
+
+      <!-- Reply Form (Hidden by default) -->
+      <div id="reply-form-<%= comment.id %>" class="mt-3 hidden">
+        <% if user_signed_in? %>
+          <%= form_with(model: [post, Comment.new], local: true, html: { data: { controller: "form-validation", validation_url: validate_form_path, validation_type: "comment" } }, class: "space-y-2") do |form| %>
+            <%= form.hidden_field :parent_comment_id, value: comment.id %>
+            <div class="flex gap-2">
+              <%= form.text_area :content, rows: 2, placeholder: "Write a reply...", class: "flex-1 bg-slate-700/50 border border-slate-600/50 rounded-lg px-3 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm" %>
+              <%= form.submit "Reply", class: "px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold text-sm" %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Replies -->
+  <% if comment.replies.any? %>
+    <div class="ml-12 mt-3 space-y-3 border-l-2 border-slate-700/30 pl-3">
+      <% comment.replies.each do |reply| %>
+        <%= render "comments/comment", comment: reply, post: post %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
