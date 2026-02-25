@@ -15,55 +15,33 @@
       </div>
     <% end %>
 
-    <!-- Posts Feed (Turbo Frames) -->
-    <div id="posts-feed">
-      <% if @posts.any? %>
-        <% @posts.each do |post| %>
-          <%= render "posts/post", post: post %>
-        <% end %>
-
-        <!-- Pagination -->
-        <% if @pagy.pages > 1 %>
-          <nav aria-label="pagination" class="flex justify-center gap-2 mt-8">
-            <% if @pagy.prev %>
-              <%= link_to "← Previous", posts_path(page: @pagy.prev), class: "px-4 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg transition" %>
-            <% else %>
-              <span class="px-4 py-2 bg-slate-800/50 text-slate-500 rounded-lg">← Previous</span>
-            <% end %>
-
-            <div class="flex gap-1">
-              <% @pagy.series.each do |page| %>
-                <% if page.is_a?(Integer) %>
-                  <% if page == @pagy.page %>
-                    <span class="px-3 py-2 bg-purple-600 text-white rounded-lg font-semibold"><%= page %></span>
-                  <% else %>
-                    <%= link_to page, posts_path(page: page), class: "px-3 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg transition" %>
-                  <% end %>
-                <% elsif page == "gap" %>
-                  <span class="px-2 py-2 text-slate-400">...</span>
-                <% end %>
-              <% end %>
-            </div>
-
-            <% if @pagy.next %>
-              <%= link_to "Next →", posts_path(page: @pagy.next), class: "px-4 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg transition" %>
-            <% else %>
-              <span class="px-4 py-2 bg-slate-800/50 text-slate-500 rounded-lg">Next →</span>
-            <% end %>
-          </nav>
-        <% end %>
-      <% else %>
-        <div class="text-center py-12">
-          <div class="text-6xl mb-4">📝</div>
-          <h2 class="text-xl font-semibold text-slate-300 mb-2">No posts yet</h2>
-          <p class="text-slate-400 mb-6">Be the first to share your thoughts!</p>
-          <% if user_signed_in? %>
-            <%= link_to "Create a Post", new_post_path, class: "inline-block px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold" %>
-          <% else %>
-            <%= link_to "Sign in to Post", user_session_path, class: "inline-block px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold" %>
+    <!-- Posts Feed (Turbo Frame) -->
+    <%= turbo_frame_tag "posts-feed" do %>
+      <div id="posts-container">
+        <% if @posts.any? %>
+          <% @posts.each do |post| %>
+            <%= render "posts/post", post: post %>
           <% end %>
-        </div>
-      <% end %>
-    </div>
+
+          <!-- Load More Button -->
+          <% if @pagy.next %>
+            <div class="text-center mt-6">
+              <%= link_to "Load More", posts_path(page: @pagy.next), data: { turbo_frame: "posts-feed", turbo_action: "append" }, class: "px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold" %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-center py-12">
+            <div class="text-6xl mb-4">📝</div>
+            <h2 class="text-xl font-semibold text-slate-300 mb-2">No posts yet</h2>
+            <p class="text-slate-400 mb-6">Be the first to share your thoughts!</p>
+            <% if user_signed_in? %>
+              <%= link_to "Create a Post", new_post_path, class: "inline-block px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold" %>
+            <% else %>
+              <%= link_to "Sign in to Post", user_session_path, class: "inline-block px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition font-semibold" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>

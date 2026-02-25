@@ -14,6 +14,18 @@
       <% if user_signed_in? %>
         <!-- Quick Links -->
         <div class="flex items-center space-x-3">
+          <!-- Search Form -->
+          <%= form_with url: search_users_path, method: :get, local: true, class: "flex items-center" do |f| %>
+            <div class="relative">
+              <input 
+                type="text" 
+                name="q" 
+                placeholder="Search friends..." 
+                class="w-32 lg:w-48 bg-slate-800/50 border border-slate-600/50 rounded-full px-4 py-1.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:w-40 lg:focus:w-56 transition-all duration-200"
+              >
+            </div>
+          <% end %>
+          
           <%= link_to "Feed", posts_path, class: "px-3 py-2 text-slate-300 hover:text-purple-400 transition font-semibold text-sm" %>
           <%= link_to pending_friend_requests_path, class: "px-3 py-2 text-slate-300 hover:text-purple-400 transition font-semibold text-sm relative" do %>
             Friends
@@ -37,7 +49,7 @@
           <!-- User Avatar/Email Button -->
           <button class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-slate-800/50 transition duration-200 text-slate-300" type="button">
             <div class="hidden sm:block text-right">
-              <p class="text-sm font-semibold text-slate-100 truncate"><%= current_user.email %></p>
+              <p class="text-sm font-semibold text-slate-100 truncate"><%= truncate(current_user.email, length: 10) %></p>
               <p class="text-xs text-slate-400">User</p>
             </div>
             <svg class="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
@@ -49,7 +61,7 @@
           <div class="absolute right-0 mt-1 w-48 bg-slate-900/95 backdrop-blur-md border border-slate-700/50 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2">
             <!-- User Info -->
             <div class="px-4 py-2 border-b border-slate-700/30">
-              <p class="text-sm font-semibold text-slate-100"><%= current_user.email %></p>
+              <p class="text-sm font-semibold text-slate-100"><%= truncate(current_user.email, length: 15) %></p>
               <p class="text-xs text-slate-400 mt-1">Signed in</p>
             </div>
 

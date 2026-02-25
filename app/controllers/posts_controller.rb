@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
+  include Pagy::Backend
   before_action :authenticate_user!, except: [ :show, :index ]
   before_action :set_post, only: [ :show, :edit, :update, :destroy ]
   before_action :authorize_user!, only: [ :edit, :update, :destroy ]
 
   # GET /posts or /posts.turbo_stream
   def index
-    @pagy, @posts = pagy(Post.recent.includes(:user, :post_images, :comments, :likes, :reactions), items: 20)
+    @pagy, @posts = pagy_countless(Post.order(created_at: :desc).includes(:user, :post_images, :comments, :likes, :reactions), items: 6)
     respond_to do |format|
       format.html
       format.turbo_stream

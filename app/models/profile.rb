@@ -30,7 +30,7 @@ class Profile < ApplicationRecord
 
   def avatar_file_type
     return unless avatar.attached?
-    unless avatar.content_type.in?(%w(image/jpeg image/png image/gif image/webp))
+    unless avatar.content_type.in?(%w[image/jpeg image/png image/gif image/webp])
       errors.add(:avatar, "must be a valid image format (JPEG, PNG, GIF, or WebP)")
     end
   end

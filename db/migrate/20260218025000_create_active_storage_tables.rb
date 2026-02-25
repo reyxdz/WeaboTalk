@@ -22,6 +22,6 @@ class CreateActiveStorageTables < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    add_index :active_storage_attachments, [:record_type, :record_id, :name], name: :index_active_storage_attachments_uniqueness, unique: true
+    add_index :active_storage_attachments, [ :record_type, :record_id, :name ], name: :index_active_storage_attachments_uniqueness, unique: true
   end
 end
