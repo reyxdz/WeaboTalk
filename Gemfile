@@ -51,7 +51,7 @@ gem "devise"
 gem "pundit", "~> 2.3", ">= 2.3.1"
 
 # Pagination
-gem "pagy", "~> 7.0"
+gem "pagy", "~> 43.3"
 
 # For background jobs (notifications)
 gem "sidekiq"
